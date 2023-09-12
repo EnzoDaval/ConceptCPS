@@ -1,4 +1,4 @@
-# Membres: 
+# Membres
 - DAVAL Enzo
 - PERRAUDEAU Emilien
 - TRICOT Thomas
@@ -23,7 +23,7 @@ TODO
 TODO
 
 # Innovation et/ou progrès scientifique
-TODO
+- Utilisation d'IA pour reconnaitre l'écriture/corriger des rendus
 
 # Quelques élement techniques
 TODO
