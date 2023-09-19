@@ -19,15 +19,12 @@ Confort
 # Motivations
 TODO
 
-# Analyse de l'existant
-TODO
-
-# Innovation et/ou progrès scientifique
+# Analyse de l'existant, innovation et/ou progrès scientifique
 TODO
 
 # Schéma architectural de principe
 
-1. Caméras, Micros, et Capteurs d'Ondes
+1. ### Caméras, Micros, et Capteurs d'Ondes ###
   Placés stratégiquement dans la salle de classe ou la zone de l'université.
 
 2. Dispositifs Edge (Edge Computing)
