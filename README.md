@@ -33,9 +33,9 @@ Références :
 2) RGPD, Articles 5, 6 et 9 concernant la licéité du traitement des données personnelles.
 
 # Analyse de l'existant, innovation et/ou progrès scientifique
-http://thesis.essa-tlemcen.dz/bitstream/handle/STDB_UNAM/237/memoire%20master%20final.pdf?sequence=1&isAllowed=y (thèse sur les caméras)
-https://www.hikvision.com/fr/solutions/solutions-by-function/student-attendance/ et https://www.aimaira.fr/controle-de-presence-casse-tete-lenseignement-superieur/ (système déjà mis en place avec les cartes)
-https://spotteredu.com/stories/opportunity-cost/ depuis https://etudiant.lefigaro.fr/article/une-universite-americaine-controle-la-presence-en-cours-avec-une-application_9e9c8846-4736-11ea-8181-5c043fd26a1a/ (appli qui detecte les etudiants avec le bluetooth)
+- http://thesis.essa-tlemcen.dz/bitstream/handle/STDB_UNAM/237/memoire%20master%20final.pdf?sequence=1&isAllowed=y (thèse sur les caméras)
+- https://www.hikvision.com/fr/solutions/solutions-by-function/student-attendance/ et https://www.aimaira.fr/controle-de-presence-casse-tete-lenseignement-superieur/ (système déjà mis en place avec les cartes)
+- https://spotteredu.com/stories/opportunity-cost/ depuis https://etudiant.lefigaro.fr/article/une-universite-americaine-controle-la-presence-en-cours-avec-une-application_9e9c8846-4736-11ea-8181-5c043fd26a1a/ (appli qui detecte les etudiants avec le bluetooth)
 
 # Schéma architectural de principe
 1. Caméras, Micros, et Capteurs d'Ondes: Placés stratégiquement dans la salle de classe ou la zone de l'université.
