@@ -14,7 +14,7 @@ Fiche d'appel autonome
 Salle de cours
 
 # Domaine
-TODO
+Confort
 
 # Motivations
 TODO
@@ -23,7 +23,7 @@ TODO
 TODO
 
 # Innovation et/ou progrès scientifique
-- Utilisation d'IA pour reconnaitre l'écriture/corriger des rendus
+TODO
 
 # Quelques élement techniques
 TODO
