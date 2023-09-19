@@ -11,7 +11,7 @@ Fiche d'appel qui se rempli automatiquement via différents catpeurs qui vont as
 Fiche d'appel autonome
 
 # Type d'environment
-TODO
+Salle de cours
 
 # Domaine
 TODO
