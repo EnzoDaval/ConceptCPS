@@ -31,7 +31,6 @@ Attentes des Parties Prenantes :
 Références :
 1) Code de l'éducation, articles relatifs à l'obligation de présence en cours.
 2) RGPD, Articles 5, 6 et 9 concernant la licéité du traitement des données personnelles.
-3) Études et sondages montrant le souhait d'une plus grande automatisation des tâches administratives dans les établissements d'enseignement. 
 
 # Analyse de l'existant, innovation et/ou progrès scientifique
 TODO
