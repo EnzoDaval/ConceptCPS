@@ -31,24 +31,24 @@ TODO
 3. Bus de Services Logiciels: Coordonne les données provenant de divers dispositifs edge et les transmet au serveur central. \
    Technologies possibles: Kafka, RabbitMQ.
 
-5. Serveur Central : Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale).
+5. Serveur Central : Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale). \
   Technologies possibles: Serveurs cloud AWS, Azure, ou des serveurs locaux.
   
-5. Plateforme de Composition: Utilisée pour programmer et orchestrer l'interaction entre différents services et clients logiciels.
+5. Plateforme de Composition: Utilisée pour programmer et orchestrer l'interaction entre différents services et clients logiciels. \
   Technologies possibles: Kubernetes pour l'orchestration, API REST pour l'interaction.
   
-6. Base de Données: Stocke les fiches d'appel, les informations sur les étudiants, et les données historiques.
+6. Base de Données: Stocke les fiches d'appel, les informations sur les étudiants, et les données historiques. \
   Technologies possibles: MySQL, PostgreSQL.
 
-8. Interface Utilisateur: Dashboard pour les enseignants/administrateurs pour voir les fiches d'appel en temps réel.
+8. Interface Utilisateur: Dashboard pour les enseignants/administrateurs pour voir les fiches d'appel en temps réel. \
   Technologies possibles: WebApp en React ou Angular.
 
-Comment fonctionne le Flux de Données :
-  Les capteurs capturent les données et les transmettent aux dispositifs edge.
-  Les dispositifs edge envoient les données au bus de services logiciels.
-  Le bus de services logiciels route les données vers le serveur central pour analyse.
-  Les résultats sont stockés dans la base de données.
-  L'interface utilisateur interroge la base de données pour afficher les informations en temps réel.
+Comment fonctionne le Flux de Données : \
+  Les capteurs capturent les données et les transmettent aux dispositifs edge. \
+  Les dispositifs edge envoient les données au bus de services logiciels. \
+  Le bus de services logiciels route les données vers le serveur central pour analyse. \
+  Les résultats sont stockés dans la base de données. \
+  L'interface utilisateur interroge la base de données pour afficher les informations en temps réel. \
 
 # Quelques élement techniques
 - Models publics existants de reconnaissance faciale et vocale :
