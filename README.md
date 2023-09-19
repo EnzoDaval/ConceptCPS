@@ -17,7 +17,21 @@ Salle de cours
 Confort
 
 # Motivations
-TODO
+Pression du Législateur : 
+1) Réglementations sur la présence en cours: En France, la présence en cours est généralement obligatoire, surtout pour les étudiants apprentis qui ont un contrat de travail associé à leurs études. Cela est en conformité avec le Code de l'éducation.
+2) Loi sur la protection des données: Le système doit être conforme au RGPD (Règlement général sur la protection des données), notamment en ce qui concerne le stockage et le traitement des données personnelles des étudiants. 
+Attentes Sociétales :
+1) Efficiences Administrative et Pédagogique: Automatiser la fiche d'appel permet de libérer du temps pour l'enseignant, qui peut ainsi se concentrer davantage sur des tâches pédagogiques. Cela peut également réduire les erreurs humaines dans la tenue des registres.
+2) Transparence et Responsabilité: Un système automatisé permet une meilleure transparence et peut fournir des preuves en cas de contestation de la part des étudiants ou des parents.
+
+Attentes des Parties Prenantes :
+1) Écoles et Universités: Pour ces institutions, un tel système peut représenter des économies de temps et de ressources humaines, ainsi qu'un moyen de se conformer plus facilement aux réglementations.
+2) Entreprises partenaires: Pour les entreprises qui emploient des étudiants apprentis, assurer une bonne assiduité en cours peut être crucial pour le développement des compétences nécessaires en milieu professionnel.
+
+Références :
+1) Code de l'éducation, articles relatifs à l'obligation de présence en cours.
+2) RGPD, Articles 5, 6 et 9 concernant la licéité du traitement des données personnelles.
+3) Études et sondages montrant le souhait d'une plus grande automatisation des tâches administratives dans les établissements d'enseignement. 
 
 # Analyse de l'existant, innovation et/ou progrès scientifique
 TODO
