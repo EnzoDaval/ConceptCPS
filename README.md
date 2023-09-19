@@ -41,7 +41,7 @@ TODO
   Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale).
   Technologies possibles: Serveurs cloud AWS, Azure, ou des serveurs locaux.
   
-5.Plateforme de Composition
+5. Plateforme de Composition
   Utilisée pour programmer et orchestrer l'interaction entre différents services et clients logiciels.
   Technologies possibles: Kubernetes pour l'orchestration, API REST pour l'interaction.
   
