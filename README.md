@@ -27,4 +27,5 @@ TODO
 
 # Quelques élement techniques
 - Models publics existants de reconnaissance faciale et vocale :
-  - https://colab.research.google.com/github/louis030195/colabs/blob/master/face_recognition.ipynb
+  - https://colab.research.google.com/github/louis030195/colabs/blob/master/face_recognition.ipynb [Face Recognition]
+  - https://colab.research.google.com/github/NVIDIA/NeMo/blob/v1.0.0b2/tutorials/speaker_recognition/Speaker_Recognition_Verification.ipynb [Speaker Recognition]
