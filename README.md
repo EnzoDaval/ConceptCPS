@@ -8,7 +8,7 @@
 Fiche d'appel qui se rempli automatiquement via différents catpeurs qui vont assurer avec une certaine certitude la présence, ou non, de l'élève.
 
 # Titre temporaire du service
-TODO
+Fiche d'appel autonome
 
 # Type d'environment
 TODO
