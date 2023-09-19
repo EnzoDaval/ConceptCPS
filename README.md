@@ -28,8 +28,8 @@ TODO
 
 2. Dispositifs Edge (Edge Computing): Effectuent le premier niveau de traitement des données des capteurs.
 
-3. Bus de Services Logiciels: Coordonne les données provenant de divers dispositifs edge et les transmet au serveur central.
-  \nTechnologies possibles: Kafka, RabbitMQ.
+3. Bus de Services Logiciels: Coordonne les données provenant de divers dispositifs edge et les transmet au serveur central. \
+   Technologies possibles: Kafka, RabbitMQ.
 
 5. Serveur Central : Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale).
   Technologies possibles: Serveurs cloud AWS, Azure, ou des serveurs locaux.
