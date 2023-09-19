@@ -33,27 +33,22 @@ Références :
 2) RGPD, Articles 5, 6 et 9 concernant la licéité du traitement des données personnelles.
 
 # Analyse de l'existant, innovation et/ou progrès scientifique
-TODO
+http://thesis.essa-tlemcen.dz/bitstream/handle/STDB_UNAM/237/memoire%20master%20final.pdf?sequence=1&isAllowed=y (thèse sur les caméras)
+https://www.hikvision.com/fr/solutions/solutions-by-function/student-attendance/ et https://www.aimaira.fr/controle-de-presence-casse-tete-lenseignement-superieur/ (système déjà mis en place avec les cartes)
+https://spotteredu.com/stories/opportunity-cost/ depuis https://etudiant.lefigaro.fr/article/une-universite-americaine-controle-la-presence-en-cours-avec-une-application_9e9c8846-4736-11ea-8181-5c043fd26a1a/ (appli qui detecte les etudiants avec le bluetooth)
 
 # Schéma architectural de principe
-
 1. Caméras, Micros, et Capteurs d'Ondes: Placés stratégiquement dans la salle de classe ou la zone de l'université.
-
 2. Dispositifs Edge (Edge Computing): Effectuent le premier niveau de traitement des données des capteurs.
-
 3. Bus de Services Logiciels: Coordonne les données provenant de divers dispositifs edge et les transmet au serveur central. \
    Technologies possibles: Kafka, RabbitMQ.
-
-5. Serveur Central : Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale). \
+4. Serveur Central : Traite les données et effectue des analyses plus complexes (comme la reconnaissance faciale). \
   Technologies possibles: Serveurs cloud AWS, Azure, ou des serveurs locaux.
-  
 5. Plateforme de Composition: Utilisée pour programmer et orchestrer l'interaction entre différents services et clients logiciels. \
   Technologies possibles: Kubernetes pour l'orchestration, API REST pour l'interaction.
-  
 6. Base de Données: Stocke les fiches d'appel, les informations sur les étudiants, et les données historiques. \
   Technologies possibles: MySQL, PostgreSQL.
-
-8. Interface Utilisateur: Dashboard pour les enseignants/administrateurs pour voir les fiches d'appel en temps réel. \
+7. Interface Utilisateur: Dashboard pour les enseignants/administrateurs pour voir les fiches d'appel en temps réel. \
   Technologies possibles: WebApp en React ou Angular.
 
 Comment fonctionne le Flux de Données : \
