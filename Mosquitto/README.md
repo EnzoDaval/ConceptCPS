@@ -8,22 +8,19 @@ Ce référentiel contient la configuration personnalisée pour le broker Mosquit
 
 La configuration Mosquitto a été modifiée pour désactiver l'accès anonyme. Cela signifie que toutes les connexions nécessitent désormais une authentification.
 
-```conf
-allow_anonymous false```
+```allow_anonymous false```
 
 ### 2. Utilisation de password_file pour l'authentification
 
 Un fichier password.txt a été ajouté pour stocker les informations d'authentification des utilisateurs. Assurez-vous que ce fichier est correctement configuré avec les noms d'utilisateur et les mots de passe.
 
-```conf
-password_file password.txt```
+```password_file password.txt```
 
 ### 3. Désactivation de la session propre avec cleansession false
 
 La session propre a été désactivée pour permettre aux clients de reprendre une session existante en cas de perte de connexion.
 
-```conf
-connection bridge_name
+```connection bridge_name
 address localhost:1883
 topic topic_name both 2
 cleansession false```
