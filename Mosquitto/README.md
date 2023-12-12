@@ -31,15 +31,14 @@ La session propre a été désactivée pour permettre aux clients de reprendre u
 ### 1. Installation de Mosquitto sur son ordinateur
 
 https://mosquitto.org/download/
-Rajouter le path dans les variables d'environnement
 
 ### 2. Config file
 
-Remplacer le config file (mosquitto.conf) original par celui présent dans le github
+Remplacer le config file original par celui présent dans le github
 
 ### 3. Création du compte
 
-Lancer la commande ```mosquitto_passwd -c password.txt <nom d'utilisateur>``` dans un windows PowerShell exécuté en administrateur dans le dossier mosquitto et indiquer le mot de passe voulu. Ces informations seront enregistrés dans un fichier nommé password.txt.
+Lancer la commande ```mosquitto_passwd -c password.txt <nom d'utilisateur>``` dans un windows PowerShell dans le dossier mosquitto et indiquer le mot de passe voulu. Ces informations seront enregistrés dans un fichier nommé password.txt.
 
 ### 4. Lancer le MQTT
 
