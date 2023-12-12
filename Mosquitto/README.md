@@ -20,10 +20,7 @@ Un fichier password.txt a été ajouté pour stocker les informations d'authenti
 
 La session propre a été désactivée pour permettre aux clients de reprendre une session existante en cas de perte de connexion.
 
-```connection bridge_name
-address localhost:1883
-topic topic_name both 2
-cleansession false```
+```connection bridge_name address localhost:1883 topic topic_name both 2 cleansession false```
 
 
 # Lancement de mosquitto
