@@ -14,11 +14,12 @@ def envoyer_donnees(eleves, nom_cours):
     for eleve in eleves:
         point = Point("cours")\
             .tag("nomCours", nom_cours)\
-            .tag("eleve", eleve.nom)\
+            .tag("nom", eleve.nom)\
+            .tag("prenom", eleve.prenom)\
             .field("presence", eleve.presence)\
             .field("certitude", eleve.certitude)
         write_api.write(bucket=bucket, org=org, record=point)
 
-eleves = [Eleve("Alice", True, 90), Eleve("Bob", False, 70)]
+eleves = [Eleve("Dupont", "Alice", True, 90), Eleve("Tricot", "Bob", False, 70)]
 envoyer_donnees(eleves, "Cours A")
 client.close()
