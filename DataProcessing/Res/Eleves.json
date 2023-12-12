@@ -1,0 +1,20 @@
+[
+  {
+    "Nom": "Doe",
+    "Prenom": "John",
+    "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+    "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+  },
+  {
+    "Nom": "Smith",
+    "Prenom": "Jane",
+    "Adresse_MAC_Wifi": "A1:B2:C3:D4:E5:F6",
+    "Adresse_MAC_Bluetooth": "A1:B2:C3:D4:E5:F6"
+  },
+  {
+    "Nom": "Martin",
+    "Prenom": "David",
+    "Adresse_MAC_Wifi": "12:34:56:78:90:AB",
+    "Adresse_MAC_Bluetooth": "12:34:56:78:90:AB"
+  }
+]

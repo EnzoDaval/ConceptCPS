@@ -1,0 +1,355 @@
+{
+  "courses": [
+    {
+      "courseID": "C001",
+      "name": "Anglais",
+      "teacher": "Sophie Bernard",
+      "students": [
+        {
+          "name": "Marie",
+          "surname": "Richard"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Durand"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Alex",
+          "surname": "Robert"
+        },
+        {
+          "name": "Alex",
+          "surname": "Richard"
+        },
+        {
+          "name": "Jean",
+          "surname": "Durand"
+        },
+        {
+          "name": "Laura",
+          "surname": "Durand"
+        },
+        {
+          "name": "Alex",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Laura",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Marie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Alex",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Alex",
+          "surname": "Robert"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Julie",
+          "surname": "Richard"
+        }
+      ]
+    },
+    {
+      "courseID": "C002",
+      "name": "Mathématique",
+      "teacher": "Maxime Bernard",
+      "students": [
+        {
+          "name": "Jean",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Alex",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Durand"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Martin"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Richard"
+        },
+        {
+          "name": "Alex",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Julie",
+          "surname": "Martin"
+        },
+        {
+          "name": "Alex",
+          "surname": "Martin"
+        },
+        {
+          "name": "Laura",
+          "surname": "Richard"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Petit"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Julie",
+          "surname": "Richard"
+        }
+      ]
+    },
+    {
+      "courseID": "C003",
+      "name": "Histoire",
+      "teacher": "Jean Robert",
+      "students": [
+        {
+          "name": "Laura",
+          "surname": "Petit"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Durand"
+        },
+        {
+          "name": "Marie",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Alex",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Julie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Jean",
+          "surname": "Petit"
+        },
+        {
+          "name": "Marie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Julie",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Alex",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Laura",
+          "surname": "Durand"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Martin"
+        },
+        {
+          "name": "Laura",
+          "surname": "Petit"
+        },
+        {
+          "name": "Marie",
+          "surname": "Petit"
+        },
+        {
+          "name": "Alex",
+          "surname": "Martin"
+        },
+        {
+          "name": "Jean",
+          "surname": "Richard"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Robert"
+        },
+        {
+          "name": "Julie",
+          "surname": "Richard"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Petit"
+        },
+        {
+          "name": "Julie",
+          "surname": "Robert"
+        }
+      ]
+    },
+    {
+      "courseID": "C004",
+      "name": "Francais",
+      "teacher": "Laura Durand",
+      "students": [
+        {
+          "name": "Alex",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Durand"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Alex",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Jean",
+          "surname": "Durand"
+        },
+        {
+          "name": "Marie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Marie",
+          "surname": "Robert"
+        },
+        {
+          "name": "Alex",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Julie",
+          "surname": "Robert"
+        }
+      ]
+    },
+    {
+      "courseID": "C005",
+      "name": "Geographie",
+      "teacher": "Maxime Petit",
+      "students": [
+        {
+          "name": "Jean",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Julie",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Richard"
+        },
+        {
+          "name": "Jean",
+          "surname": "Petit"
+        },
+        {
+          "name": "Alex",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Jean",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Robert"
+        },
+        {
+          "name": "Maxime",
+          "surname": "Richard"
+        },
+        {
+          "name": "Marie",
+          "surname": "Robert"
+        },
+        {
+          "name": "Jean",
+          "surname": "Thomas"
+        },
+        {
+          "name": "Laura",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Thomas",
+          "surname": "Petit"
+        },
+        {
+          "name": "Julie",
+          "surname": "Dupont"
+        },
+        {
+          "name": "Jean",
+          "surname": "Bernard"
+        },
+        {
+          "name": "Sophie",
+          "surname": "Thomas"
+        }
+      ]
+    }
+  ]
+}

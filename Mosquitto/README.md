@@ -20,7 +20,26 @@ Un fichier password.txt a été ajouté pour stocker les informations d'authenti
 
 La session propre a été désactivée pour permettre aux clients de reprendre une session existante en cas de perte de connexion.
 
-```connection bridge_name
-address localhost:1883
-topic topic_name both 2
-cleansession false```
+```connection bridge_name``` 
+```address localhost:1883``` 
+```topic topic_name both 2```
+```cleansession false```
+
+
+# Lancement de mosquitto
+
+### 1. Installation de Mosquitto sur son ordinateur
+
+https://mosquitto.org/download/
+
+### 2. Config file
+
+Remplacer le config file original par celui présent dans le github
+
+### 3. Création du compte
+
+Lancer la commande ```mosquitto_passwd -c password.txt <nom d'utilisateur>``` dans un windows PowerShell dans le dossier mosquitto et indiquer le mot de passe voulu. Ces informations seront enregistrés dans un fichier nommé password.txt.
+
+### 4. Lancer le MQTT
+
+Lancer la commande ```.\mosquitto.exe -c mosquitto.conf -v``` dans un windows PowerShell dans le dossier mosquitto.
