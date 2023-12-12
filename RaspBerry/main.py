@@ -1,8 +1,10 @@
 import bluetooth
 from scapy.layers.l2 import Ether, ARP
 from scapy.sendrecv import srp
+import paho.mqtt.client as mqtt
+from envparse import env
 
-# Listes pour stocker les adresses MAC
+# Définition des listes pour les adresses MAC
 mac_adresses_bluetooth = []
 mac_adresses_wifi = []
 
@@ -24,13 +26,29 @@ def scan_available_bluetooth_devices():
 
     return [{"Adresse MAC": address, "Nom": name} for address, name in nearby_devices]
 
-# Exemple d'utilisation
+# Configuration MQTT
+MQTT_HOST = env('MQTT_HOST', default='localhost')
+MQTT_PORT = env.int('MQTT_PORT', default=1883)
+
+# Connexion au broker MQTT
+client = mqtt.Client()
+client.connect(MQTT_HOST, MQTT_PORT, 60)
+print("Connecté au broker MQTT.")
+
+# Scan et publication
+print("Début du scan...")
 ip_range = "172.20.10.1/24"
 arp_scan(ip_range)
-print("Adresses MAC des appareils WiFi :", mac_adresses_wifi)
-
 scan_available_bluetooth_devices()
-print("Adresses MAC des appareils Bluetooth :", mac_adresses_bluetooth)
 
-# Envoi des données via MQTT (à implémenter)
-# mqtt_send(mac_adresses_wifi, mac_adresses_bluetooth)
+print("Publication des adresses MAC sur MQTT...")
+client.publish("mac_adresses/wifi", str(mac_adresses_wifi))
+client.publish("mac_adresses/bluetooth", str(mac_adresses_bluetooth))
+
+print("Adresses MAC WiFi:", mac_adresses_wifi)
+print("Adresses MAC Bluetooth:", mac_adresses_bluetooth)
+print("Données publiées avec succès.")
+
+# Déconnexion du broker MQTT
+client.disconnect()
+print("Déconnecté du broker MQTT.")
