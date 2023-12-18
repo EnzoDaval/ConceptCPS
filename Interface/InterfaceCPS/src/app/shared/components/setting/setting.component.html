@@ -1,0 +1,29 @@
+<div class="settings-container">
+  <div class="info-container">
+  <div class="icon-container">
+    <mat-icon>{{ icon }}</mat-icon>
+  </div>
+  <div class="title-container">
+    <h3>{{ title }}</h3>
+  </div>
+  </div>
+  <div class="both-settings-container">
+  <div class="percentage-label">
+    <h3>Taux de confiance</h3>
+    <input type="number" [(ngModel)]="percentage" min="0" max="100" />%
+  </div>
+  <div class="slider-container">
+    <h3>Rayon de détection</h3>
+    <mat-slider
+      [(ngModel)]="sliderValue"
+      min="0"
+      max="100"
+      [step]="tickInterval"
+      [tickInterval]="tickInterval"
+    ></mat-slider>
+    <div class="tick-labels">
+      <span *ngFor="let label of tickLabels">{{ label }}</span>
+    </div>
+  </div>
+  </div>
+</div>

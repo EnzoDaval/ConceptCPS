@@ -1,0 +1,104 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Settings container */
+.settings-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Info container */
+.info-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Icon container */
+.icon-container {
+  margin-right: 15px;
+}
+
+/* Title container */
+.title-container h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Both settings container */
+.both-settings-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Percentage label */
+.percentage-label {
+  text-align: center;
+}
+
+.percentage-label h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Styling for number input */
+.percentage-label input {
+  width: 50px;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+/* Hover effect for the input */
+.percentage-label input:hover,
+.percentage-label input:focus {
+  border-color: #3498db;
+}
+
+/* Focus effect for the input */
+.percentage-label input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Disabled state for the input */
+.percentage-label input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Slider container */
+.slider-container {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+/* Tick labels */
+.tick-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #888;
+}
+
+/* Mat-slider adjustments */
+.mat-slider-horizontal {
+  height: 4px;
+  min-width: 100%;
+}
+
+.mat-slider-thumb-label {
+  display: none;
+}

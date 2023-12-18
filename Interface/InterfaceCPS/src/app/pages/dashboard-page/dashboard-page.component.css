@@ -1,0 +1,37 @@
+/* Apply basic styles to the big container */
+.big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust the height as needed */
+}
+
+/* Style the card container */
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  width: 80%; /* Adjust the width as needed */
+  background-color: #f0f0f0; /* Set a background color */
+  padding: 20px; /* Add padding for better spacing */
+}
+
+/* Style individual cards */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Style the app-tab and app-vertical-chart components */
+app-tab {
+  /* Add styles for the app-tab component */
+}
+
+app-vertical-chart {
+  /* Add styles for the app-vertical-chart component */
+  width: 100%; /* Set the width to fill the container */
+  height: 300px; /* Set the height as needed */
+}

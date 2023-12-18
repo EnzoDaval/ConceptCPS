@@ -1,0 +1,30 @@
+/* Ajoutez ces styles dans votre fichier CSS correspondant (par exemple, styles.css) ou dans votre fichier de style Angular (par exemple, vertical-chart.component.css) */
+
+.table-container {
+  width: 100%;
+  max-width: 800px; /* ajustez la largeur maximale selon vos besoins */
+  margin: auto; /* centre le conteneur horizontalement */
+  overflow-x: auto; /* ajoute une barre de défilement horizontale si la table est trop large */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour la table Angular Material */
+.mat-elevation-z8 {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* ajustez la marge supérieure selon vos besoins */
+}
+
+/* Styles pour les cellules de la table */
+th.mat-header-cell, td.mat-cell {
+  padding: 12px;
+  text-align: left;
+}
+
+/* Style pour les icônes de présence */
+mat-icon {
+  font-size: 18px;
+  vertical-align: middle;
+}

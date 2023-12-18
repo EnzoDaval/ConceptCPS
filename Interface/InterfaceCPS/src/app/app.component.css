@@ -1,0 +1,70 @@
+/* Apply styles to the entire page */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Style the mat-sidenav-container */
+.example-container {
+  height: 100vh;
+}
+
+/* Style the mat-sidenav */
+mat-sidenav {
+  background-color: #333; /* Dark gray background color */
+  color: #fff; /* White text color */
+}
+
+/* Style the home-container and its child elements */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Style the individual navigation items */
+.home-container div {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Style the selected navigation item */
+.home-container div.active {
+  background-color: #555; /* Darker gray for the selected item */
+}
+
+/* Style mat-icon */
+mat-icon {
+  margin-right: 10px;
+}
+
+/* Hover effect for navigation items */
+.home-container div:hover:not(.active) {
+  background-color: #555; /* Darker gray on hover for non-selected items */
+}
+
+/* Style the mat-sidenav-content */
+mat-sidenav-content {
+  padding: 16px;
+}
+
+/* Optional: Adjust the styles for the router-outlet content as needed */
+router-outlet {
+  /* Add styles for the router-outlet content */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #222; /* Adjust the background color as needed */
+}
+
+/* Style the logo image */
+.logo-container img {
+  max-width: 50px;
+  max-height: 50px;
+}

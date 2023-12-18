@@ -1,0 +1,24 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened>
+    <div class="logo-container">
+      <img src="assets/images/LOGO.png" alt="Logo">
+    </div>
+    <div class="home-container" routerLinkActive="active">
+      <div routerLink="/home">
+        <mat-icon>home</mat-icon>
+        <span>Accueil</span>
+      </div>
+      <div class="dashboard-container" routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Tableau de bord</span>
+      </div>
+      <div class="dashboard-container" routerLink="/settings" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>
+        <span>Réglages</span>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,27 @@
+/* styles.css (ou le fichier CSS de votre choix) */
+
+.big-container {
+  height: 100vh;
+  margin: 20px auto; /* Centre le conteneur horizontalement avec une marge */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-container {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Ajoutez une séparation entre les app-setting */
+.app-setting {
+  margin-bottom: 10px;
+}
