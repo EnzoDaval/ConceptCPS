@@ -2,7 +2,7 @@
 # Importez la classe CameraManager depuis votre module (supposons que le module s'appelle camera_manager.py)
 
 from Classes.Eleve import *
-from API.InfluxDB import envoyer_donnees
+from InfluxDB.client import * #API.InfluxDB import envoyer_donnees
 
 NUMBER_OF_SENSORS = 2  # Bluetooth & Wifi
 BLUETOOTH_CONFIDENCE = 0.4  # Donné par l'utilisateur
