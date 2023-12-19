@@ -9,7 +9,7 @@
   </div>
   <div class="both-settings-container">
   <div class="percentage-label">
-    <h3>Taux de confiance</h3>
+    <h3>Prise en compte</h3>
     <input type="number" [(ngModel)]="percentage" min="0" max="100" />%
   </div>
   <div class="slider-container">
@@ -20,6 +20,7 @@
       max="100"
       [step]="tickInterval"
       [tickInterval]="tickInterval"
+      (change)="onSliderChange($event)"
     ></mat-slider>
     <div class="tick-labels">
       <span *ngFor="let label of tickLabels">{{ label }}</span>

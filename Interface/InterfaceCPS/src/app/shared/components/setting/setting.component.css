@@ -5,7 +5,7 @@ body {
 
 /* Settings container */
 .settings-container {
-  max-width: 400px;
+  min-width: 400px;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -44,14 +44,14 @@ body {
   text-align: center;
 }
 
-.percentage-label h3 {
+.percentage-label h3, slider-container h3 {
   margin: 0;
   font-size: 16px;
   color: #555;
 }
 
 /* Styling for number input */
-.percentage-label input {
+.percentage-label input, slider-container input {
   width: 50px;
   padding: 10px;
   margin-top: 5px;

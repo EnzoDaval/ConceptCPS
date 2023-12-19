@@ -1,9 +1,17 @@
 <div class="big-container">
 <div class="title-container">
-  {{ this.title }}
+  Réglages
 </div>
 <div class="settings-container">
-  <app-setting icon="camera_alt" title="Caméra" [percentage]="20"></app-setting>
-  <app-setting icon="bluetooth" title="Détection Bluetooth" [percentage]="30"></app-setting>
-  <app-setting icon="wifi" title="Détéction Wifi" [percentage]="50"></app-setting>
-</div></div>
+  <div class="frequency-label">
+    <h3>Fréquence de récupération des données</h3>
+    <input type="number" [(ngModel)]="fetchFrequency" min="1" /> minutes
+  </div>
+  <div class="settings-card">
+  <app-setting icon="camera_alt" title="Caméra" [percentage]="settings['camera'].percentage" [sliderValue]="settings['camera'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
+  <app-setting icon="bluetooth" title="Détection Bluetooth" [percentage]="settings['bluetooth'].percentage" [sliderValue]="settings['bluetooth'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
+  <app-setting icon="wifi" title="Détéction Wifi" [percentage]="settings['wifi'].percentage" [sliderValue]="settings['wifi'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
+  </div>
+  </div>
+  <button (click)="generateJsonFile()">Enregistrer les réglages</button>
+</div>

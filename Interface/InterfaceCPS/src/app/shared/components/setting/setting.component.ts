@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-setting',
@@ -9,14 +9,16 @@ export class SettingComponent {
   @Input() icon: string = 'settings';
   @Input() title: string = 'Setting Title';
   @Input() percentage: number = 50;
-  sliderValue: number = 50;
+  @Input() sliderValue: number = 50;
 
-  // Définissez les niveaux (étiquettes) et l'intervalle souhaités
+  @Output() sliderChange: EventEmitter<number> = new EventEmitter<number>();
+
   tickInterval: number = 10;
   tickLabels: string[] = Array.from({ length: 11 }, (_, i) => (i * 10).toString());
 
-  // Update the percentage when the slider value changes
   onSliderChange(event: any) {
-    this.percentage = event.value;
+    console.log("change in slider");
+    this.sliderValue = event.value;
+    this.sliderChange.emit(this.sliderValue);
   }
 }
