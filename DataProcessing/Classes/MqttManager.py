@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 import json
 
-MQTT_HOST = "127.0.0.1" #192.168.195.81"
-MQTT_PORT = 2883 #1884
+MQTT_HOST = "192.168.195.81" #"127.0.0.1" #192.168.195.81"
+MQTT_PORT = 1884 #2883 #1884
 
 
 class MqttManager:
@@ -52,7 +52,7 @@ class MqttManager:
             presence_bool = False
             for presence in json.loads(msg):  # La liste des eleves detectes
                 adresse_mac_bluetooth_detected = presence['MAC']
-                if adresse_mac_bluetooth_detected == adresse_mac_bluetooth:
+                if adresse_mac_bluetooth_detected.lower() == adresse_mac_bluetooth.lower():
                     presence_bool = True
             cle = f'{nom}-{prenom}'
             valeurs = {'Nom': f'{nom}', 'Prenom': f'{prenom}', 'PresenceBluetooth': f'{presence_bool}'}
@@ -79,7 +79,7 @@ class MqttManager:
             presence_bool = False
             for presence in json.loads(msg):  # La liste des eleves detectes
                 adresse_mac_wifi_detected = presence['MAC']
-                if adresse_mac_wifi_detected == adresse_mac_wifi:
+                if adresse_mac_wifi_detected.lower() == adresse_mac_wifi.lower():
                     presence_bool = True
             cle = f'{nom}-{prenom}'
             valeurs = {'Nom': f'{nom}', 'Prenom': f'{prenom}', 'PresenceWifi': f'{presence_bool}'}

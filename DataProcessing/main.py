@@ -11,8 +11,8 @@ WIFI_CONFIDENCE = 0.6  # Donné par l'utilisateur
 
 def evaluate_presence(presences):
     final_presence = {}
-    precision = 0
     for presence in presences.values():
+        precision = 0
         nom = presence.get('Nom')
         prenom = presence.get('Prenom')
         presenceWifi = presence.get('PresenceWifi')
