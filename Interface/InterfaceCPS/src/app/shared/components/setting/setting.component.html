@@ -10,7 +10,7 @@
   <div class="both-settings-container">
   <div class="percentage-label">
     <h3>Prise en compte</h3>
-    <input type="number" [(ngModel)]="percentage" min="0" max="100" />%
+    <input type="number" [(ngModel)]="percentage" min="0" max="100" (ngModelChange)="onPercentageChange($event)"/>%
   </div>
   <div class="slider-container">
     <h3>Rayon de détection</h3>

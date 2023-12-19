@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SettingComponent} from "../../shared/components/setting/setting.component";
+import * as saveAs from 'file-saver';
 
 interface SettingsData {
   fetchFrequency: number;
@@ -19,11 +19,11 @@ interface SettingData {
   styleUrls: ['./settings-page.component.css']
 })
 export class SettingsPageComponent implements OnInit {
-  fetchFrequency: number = 1;
+  fetchFrequency: number = 15;
   settings: { [key: string]: SettingData } = {
-    camera: { percentage: 20, sliderValue: 0 },
-    bluetooth: { percentage: 30, sliderValue: 0 },
-    wifi: { percentage: 50, sliderValue: 0 }
+    camera: { percentage: 20, sliderValue: 50 },
+    bluetooth: { percentage: 30, sliderValue: 50 },
+    wifi: { percentage: 50, sliderValue: 50 }
   };
   constructor() { }
 
@@ -31,10 +31,18 @@ export class SettingsPageComponent implements OnInit {
   }
 
   onSliderChange(setting: string, value: number) {
-    console.log("slider change")
     this.settings[setting].sliderValue = value;
   }
+
+  onPercentageChange(setting: string, value: number) {
+    this.settings[setting].percentage = value;
+  }
   generateJsonFile() {
+    if (this.getSumOfPercentages() !== 100) {
+      alert('La somme des pourcentages doit être égal à 100');
+      return;
+    }
+
     const settingsData: SettingsData = {
       fetchFrequency: this.fetchFrequency,
       camera: { percentage: this.settings['camera'].percentage, sliderValue: this.settings['camera'].sliderValue },
@@ -42,19 +50,17 @@ export class SettingsPageComponent implements OnInit {
       wifi: { percentage: this.settings['wifi'].percentage, sliderValue: this.settings['wifi'].sliderValue },
     };
 
-
     const jsonContent = JSON.stringify(settingsData, null, 2);
     console.log(jsonContent);
 
-    // Enregistrez le fichier JSON ou effectuez l'action nécessaire avec le contenu JSON
-    // Par exemple, vous pouvez utiliser FileSaver.js pour enregistrer le fichier localement.
-    // Consultez https://github.com/eligrey/FileSaver.js/ pour plus d'informations.
-
-    // Exemple d'utilisation de FileSaver.js
-    // import * as FileSaver from 'file-saver';
-    // const blob = new Blob([jsonContent], { type: 'application/json' });
-    // FileSaver.saveAs(blob, 'settings.json');
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    saveAs(blob, 'settings.json');
   }
 
-
+  private getSumOfPercentages(): number {
+    return Object.values(this.settings).reduce(
+      (sum, setting) => sum + setting.percentage,
+      0
+    );
+  }
 }

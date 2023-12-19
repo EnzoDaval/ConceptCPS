@@ -8,9 +8,9 @@
     <input type="number" [(ngModel)]="fetchFrequency" min="1" /> minutes
   </div>
   <div class="settings-card">
-  <app-setting icon="camera_alt" title="Caméra" [percentage]="settings['camera'].percentage" [sliderValue]="settings['camera'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
-  <app-setting icon="bluetooth" title="Détection Bluetooth" [percentage]="settings['bluetooth'].percentage" [sliderValue]="settings['bluetooth'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
-  <app-setting icon="wifi" title="Détéction Wifi" [percentage]="settings['wifi'].percentage" [sliderValue]="settings['wifi'].sliderValue" (sliderChange)="onSliderChange('camera', $event)"></app-setting>
+  <app-setting icon="camera_alt" title="Caméra" [percentage]="settings['camera'].percentage" [sliderValue]="settings['camera'].sliderValue" (sliderChange)="onSliderChange('camera', $event)" (percentageChange)="onPercentageChange('camera', $event)"></app-setting>
+  <app-setting icon="bluetooth" title="Détection Bluetooth" [percentage]="settings['bluetooth'].percentage" [sliderValue]="settings['bluetooth'].sliderValue" (sliderChange)="onSliderChange('bluetooth', $event)" (percentageChange)="onPercentageChange('bluetooth', $event)"></app-setting>
+  <app-setting icon="wifi" title="Détéction Wifi" [percentage]="settings['wifi'].percentage" [sliderValue]="settings['wifi'].sliderValue" (sliderChange)="onSliderChange('wifi', $event)" (percentageChange)="onPercentageChange('wifi', $event)"></app-setting>
   </div>
   </div>
   <button (click)="generateJsonFile()">Enregistrer les réglages</button>

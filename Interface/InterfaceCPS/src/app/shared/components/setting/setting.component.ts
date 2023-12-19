@@ -12,13 +12,18 @@ export class SettingComponent {
   @Input() sliderValue: number = 50;
 
   @Output() sliderChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() percentageChange: EventEmitter<number> = new EventEmitter<number>();
 
   tickInterval: number = 10;
   tickLabels: string[] = Array.from({ length: 11 }, (_, i) => (i * 10).toString());
 
   onSliderChange(event: any) {
-    console.log("change in slider");
     this.sliderValue = event.value;
     this.sliderChange.emit(this.sliderValue);
+  }
+
+  onPercentageChange(event: any) {
+    console.log(event);
+    this.percentageChange.emit(this.percentage);
   }
 }
