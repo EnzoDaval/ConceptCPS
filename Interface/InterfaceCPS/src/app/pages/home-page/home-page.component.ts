@@ -12,4 +12,8 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  calculateThePresence(){
+    console.log("calculateThePresence")
+  }
+
 }
