@@ -2,8 +2,6 @@
 
 .big-container {
   height: 100svh;
-  margin: 20px auto; /* Centre le conteneur horizontalement avec une marge */
-  padding: 20px;
 }
 
 .title-container {
@@ -79,6 +77,7 @@ button {
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
+  float: right;
 }
 
 /* Hover effect on button */
