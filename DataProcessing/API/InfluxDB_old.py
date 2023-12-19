@@ -1,6 +1,6 @@
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
-from Classes.Eleve import *
+#from DataProcessing.Classes.Eleve import *
 
 url = "https://us-east-1-1.aws.cloud2.influxdata.com"
 token = "CHPF60Fmc4WWf1tNKXqjRUVm2we9FU3YTqAJE23oNmURgJcMwnacqN5UIRd_PdM01fq-sqM-lIJH6jOz2meqeg=="
