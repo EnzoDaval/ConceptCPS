@@ -1,23 +1,17 @@
 # This is a sample Python script.
 # Importez la classe CameraManager depuis votre module (supposons que le module s'appelle camera_manager.py)
+import datetime
 import sys
+
+from InfluxDB.client import get_data_in_horaire, get_horaires
+
 sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
-try:
-    from InfluxDB import client
-    print("Module importé avec succès!")
-except ModuleNotFoundError as e:
-    print("Le module n'a pas pu être importé :", e)
-
-
-
-
-
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
 import pytz
-from InfluxDB.client.py import *
+from InfluxDB.client import *
 from InfluxDB.dispositif import Dispositif
 from InfluxDB.data import Data
 
