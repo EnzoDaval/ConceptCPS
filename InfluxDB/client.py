@@ -1,3 +1,4 @@
+import pytz
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from datetime import datetime, timedelta
@@ -48,12 +49,16 @@ def get_horaires(id_dispositif):
 
 def get_data_in_horaire(influxdb_timestamp_min,influxdb_timestamp_max, id_dispositif):
     client = InfluxDBClient(url=url, token=token, org=org)
+    # Convertissez influxdb_timestamp_min et influxdb_timestamp_max en objets datetime avec le même fuseau horaire
+    tz = pytz.timezone('Europe/Paris')
+    influxdb_timestamp_min = influxdb_timestamp_min
+    influxdb_timestamp_max = influxdb_timestamp_max
 
     query_second_table = f'''
-        from(bucket: "{bucket}")
-            |> range(start: -1d)
-            |> filter(fn: (r) => r["_measurement"] == "donnees" and r["ID_Dispositif"] == "{id_dispositif}")
-'''
+            from(bucket: "{bucket}")
+                |> range(start: -1d)
+                |> filter(fn: (r) => r["_measurement"] == "donnees" and r["ID_Dispositif"] == "{id_dispositif}")
+    '''
 
     resultats_second_table = client.query_api().query(query_second_table, org=org)
 
@@ -68,12 +73,12 @@ def get_data_in_horaire(influxdb_timestamp_min,influxdb_timestamp_max, id_dispos
     '''
     valeurs_filtrees = [
         {
-            "_time": row.values["_time"],
+            "_time": row.values["_time"].astimezone(tz),
             "_value": row.values["_value"]
         }
         for table in resultats_second_table
         for row in table.records
-        if influxdb_timestamp_min <= row.values["_time"] <= influxdb_timestamp_max
+        if influxdb_timestamp_min <= row.values["_time"].astimezone(tz) <= influxdb_timestamp_max
     ]
 
     print(valeurs_filtrees)
