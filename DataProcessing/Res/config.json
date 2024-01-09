@@ -1,0 +1,95 @@
+[
+  {
+    "numeroDeClasse": "E303",
+    "horraires": [
+      {
+        "heureDebut": "2024-01-09T10:00:00.104Z",
+        "heureFin": "2024-01-09T11:00:00.104Z",
+        "addresses": [
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          }
+        ]
+      },
+      {
+        "heureDebut": "2024-01-09T14:00:00.104Z",
+        "heureFin": "2024-01-09T16:00:00.104Z",
+        "addresses": [
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          }
+        ]
+      }
+    ]
+  },
+    {
+    "numeroDeClasse": "E102",
+    "horraires": [
+      {
+        "heureDebut": "2024-01-09T09:00:00.104Z",
+        "heureFin": "2024-01-09T10:00:00.104Z",
+        "addresses": [
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          }
+        ]
+      }
+    ]
+  },
+    {
+    "numeroDeClasse": "E209",
+    "horraires": [
+      {
+        "heureDebut": "2024-01-09T10:00:00.104Z",
+        "heureFin": "2024-01-09T11:00:00.104Z",
+        "addresses": [
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          },
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          }
+        ]
+      },
+      {
+        "heureDebut": "2024-01-09T14:00:00.104Z",
+        "heureFin": "2024-01-09T16:00:00.104Z",
+        "addresses": [
+          {
+            "Adresse_MAC_Wifi": "00:1A:2B:3C:4D:5E",
+            "Adresse_MAC_Bluetooth": "00:1A:2B:3C:4D:5E"
+          }
+        ]
+      }
+    ]
+  }
+]

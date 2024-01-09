@@ -1,6 +1,7 @@
 # This is a sample Python script.
 # Importez la classe CameraManager depuis votre module (supposons que le module s'appelle camera_manager.py)
 import datetime
+import json
 import sys
 
 from InfluxDB.client import get_data_in_horaire, get_horaires
@@ -32,6 +33,31 @@ def recevoir_notification():
     # Traitez la notification ici
     print('Notification reçue !')
     return jsonify({'message': 'Notification reçue avec succès'})
+def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='Res/Eleves.json'):
+    try:
+        with open(chemin_fichier, 'r') as fichier:
+            eleves = json.load(fichier)
+            for eleve in eleves:
+                if eleve['Adresse_MAC_Wifi'].lower() == adresse_mac_wifi.lower():
+                    return eleve['Prenom'], eleve['Nom']
+    except FileNotFoundError:
+        print("Fichier non trouvé.")
+    except json.JSONDecodeError:
+        print("Erreur de formatage du fichier JSON.")
+
+    return None
+
+def trouver_eleve_par_bluetooth(adresse_mac_bluetooth, chemin_fichier='Res/Eleves.json'):
+    try:
+        with open(chemin_fichier, 'r') as fichier:
+            eleves = json.load(fichier)
+            for eleve in eleves:
+                if eleve['Adresse_MAC_Bluetooth'].lower() == adresse_mac_bluetooth.lower():
+                    return eleve['Prenom'], eleve['Nom']
+    except FileNotFoundError:
+        print("Fichier non trouvé.")
+    except json.JSONDecodeError:
+        print("Erreur de formatage du fichier JSON.")
 
 
 def evaluate_presence(list_mac, id_dispositif):
@@ -107,7 +133,7 @@ if __name__ == '__main__':
     from Classes.MqttManager import MqttManager
 
     # camManager = CameraManager()  # Press Maj+F10 to execute it or replace it with your code.
-    # mqttManager = MqttManager()
+    mqttManager = MqttManager()
 
     # camManager.recuperation_images()
     # camManager.analyze_images_in_folder()

@@ -1,8 +1,14 @@
 import paho.mqtt.client as mqtt
 import json
+from InfluxDB.client import envoyer_donnes_data
+from InfluxDB.data import Data
 
-MQTT_HOST = "192.168.195.81" #"127.0.0.1"
-MQTT_PORT = 1884 #2883
+BLUETOOTH_ID = 150
+
+WIFI_ID = 160
+
+MQTT_HOST = "127.0.0.1" #"192.168.195.81"
+MQTT_PORT = 2883 #1884
 
 
 class MqttManager:
@@ -42,53 +48,32 @@ class MqttManager:
                 exit()
 
     def on_message_bluetooth(self, msg):
+        try:
+            # Transformer le payload en liste de dictionnaires
+            mac_dicts = json.loads(msg.decode('utf-8'))
+            # Extraire les valeurs MAC de chaque dictionnaire
+            mac_addresses = [mac_dict['MAC'] for mac_dict in mac_dicts]
 
-        print("List of bluetooth addresses-> " + str(msg))  # Print a received msg
-        '''for eleve in self.list_eleves:  # La liste de tous les eleves
-            nom = eleve['Nom']
-            prenom = eleve['Prenom']
-            adresse_mac_bluetooth = eleve['Adresse_MAC_Bluetooth']
-            presence_bool = False
-            for presence in json.loads(msg):  # La liste des eleves detectes
-                adresse_mac_bluetooth_detected = presence['MAC']
-                if adresse_mac_bluetooth_detected.lower() == adresse_mac_bluetooth.lower():
-                    presence_bool = True
-            cle = f'{nom}-{prenom}'
-            valeurs = {'Nom': f'{nom}', 'Prenom': f'{prenom}', 'PresenceBluetooth': f'{presence_bool}'}
-            if self.list_presence.get(cle):
-                self.list_presence[cle].update(valeurs)
-            else:
-                self.list_presence[cle] = valeurs
-        # print(self.list_presence)
-        if self.wif_message_received:
-            evaluate_presence(self.list_presence)
-            self.bluetooth_message_received = False
-            self.wif_message_received = False
-        else:
-            self.bluetooth_message_received = True'''
+            # Créer et envoyer les données
+            data = Data(BLUETOOTH_ID, mac_addresses)
+            print(mac_addresses)
+            envoyer_donnes_data(data)
+        except json.JSONDecodeError:
+            print("Erreur de décodage JSON.")
+        except KeyError:
+            print("Clé 'MAC' manquante dans les données reçues.")
 
     def on_message_wifi(self, msg):
+        try:
+            # Transformer le payload en liste de dictionnaires
+            mac_dicts = json.loads(msg.decode('utf-8'))
+            # Extraire les valeurs MAC de chaque dictionnaire
+            mac_addresses = [mac_dict['MAC'] for mac_dict in mac_dicts]
 
-        print("List of wifi addresses-> " + str(msg))  # Print a received msg
-        '''for eleve in self.list_eleves:  # La liste de tous les eleves
-            nom = eleve['Nom']
-            prenom = eleve['Prenom']
-            adresse_mac_wifi = eleve['Adresse_MAC_Wifi']
-            presence_bool = False
-            for presence in json.loads(msg):  # La liste des eleves detectes
-                adresse_mac_wifi_detected = presence['MAC']
-                if adresse_mac_wifi_detected.lower() == adresse_mac_wifi.lower():
-                    presence_bool = True
-            cle = f'{nom}-{prenom}'
-            valeurs = {'Nom': f'{nom}', 'Prenom': f'{prenom}', 'PresenceWifi': f'{presence_bool}'}
-            if self.list_presence.get(cle):
-                self.list_presence[cle].update(valeurs)
-            else:
-                self.list_presence[cle] = valeurs
-        # print(self.list_presence)
-        if self.bluetooth_message_received:
-            evaluate_presence(self.list_presence)
-            self.bluetooth_message_received = False
-            self.wif_message_received = False
-        else:
-            self.wif_message_received = True'''
+            # Créer et envoyer les données
+            data = Data(WIFI_ID, mac_addresses)
+            envoyer_donnes_data(data)
+        except json.JSONDecodeError:
+            print("Erreur de décodage JSON.")
+        except KeyError:
+            print("Clé 'MAC' manquante dans les données reçues.")
