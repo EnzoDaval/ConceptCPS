@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 import json
 
-MQTT_HOST = "192.168.195.81" #"127.0.0.1" #192.168.195.81"
-MQTT_PORT = 1884 #2883 #1884
+MQTT_HOST = "192.168.195.81" #"127.0.0.1"
+MQTT_PORT = 1884 #2883
 
 
 class MqttManager:
@@ -15,7 +15,7 @@ class MqttManager:
     wif_message_received = False
 
     def __init__(self):
-        client = mqtt.Client("digi_mqtt_test")  # Create instance of client with client ID “digi_mqtt_test”
+        client = mqtt.Client("Orchestrateur")  # Create instance of client with client ID “digi_mqtt_test”
         client.on_connect = self.on_connect  # Define callback function for successful connection
         client.on_message = self.on_message  # Define callback function for receipt of a message
         # client.connect("m2m.eclipse.org", 1883, 60)  # Connect to (broker, port, keepalive-time)
@@ -42,10 +42,9 @@ class MqttManager:
                 exit()
 
     def on_message_bluetooth(self, msg):
-        from main import evaluate_presence
 
         print("List of bluetooth addresses-> " + str(msg))  # Print a received msg
-        for eleve in self.list_eleves:  # La liste de tous les eleves
+        '''for eleve in self.list_eleves:  # La liste de tous les eleves
             nom = eleve['Nom']
             prenom = eleve['Prenom']
             adresse_mac_bluetooth = eleve['Adresse_MAC_Bluetooth']
@@ -66,13 +65,12 @@ class MqttManager:
             self.bluetooth_message_received = False
             self.wif_message_received = False
         else:
-            self.bluetooth_message_received = True
+            self.bluetooth_message_received = True'''
 
     def on_message_wifi(self, msg):
-        from main import evaluate_presence
 
         print("List of wifi addresses-> " + str(msg))  # Print a received msg
-        for eleve in self.list_eleves:  # La liste de tous les eleves
+        '''for eleve in self.list_eleves:  # La liste de tous les eleves
             nom = eleve['Nom']
             prenom = eleve['Prenom']
             adresse_mac_wifi = eleve['Adresse_MAC_Wifi']
@@ -93,4 +91,4 @@ class MqttManager:
             self.bluetooth_message_received = False
             self.wif_message_received = False
         else:
-            self.wif_message_received = True
+            self.wif_message_received = True'''
