@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pytz
 from InfluxDB.client import *  # API.InfluxDB import envoyer_donnees
-from InfluxDB.client import *
-from InfluxDB.dispositif import Dispositif
-from InfluxDB.data import Data
+from flask import Flask, request, jsonify
 
 
 NUMBER_OF_SENSORS = 2  # Bluetooth & Wifi
@@ -15,7 +13,14 @@ BLUETOOTH_SAMPLES = 15  # en minutes
 
 WIFI_SAMPLES = 15  # en minutes
 
+app = Flask(__name__)
 
+
+@app.route('/calculate', methods=['POST'])
+def recevoir_notification():
+    # Traitez la notification ici
+    print('Notification reçue !')
+    return jsonify({'message': 'Notification reçue avec succès'})
 
 def evaluate_presence(list_mac,id_dispositif):
     horaires = get_horaires(id_dispositif)
@@ -105,4 +110,6 @@ if __name__ == '__main__':
     data = get_data_in_horaire(influxdb_timestamp_min,influxdb_timestamp_max, "15")
     print("Data en lien avec cet horaire: ", data)
     evaluate_presence(data,"150")
+
+    app.run(port=5000)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
