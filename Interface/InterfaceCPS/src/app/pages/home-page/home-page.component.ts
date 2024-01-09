@@ -14,7 +14,7 @@ export class HomePageComponent implements OnInit {
   }
 
   calculateThePresence(){
-    this.http.post('http://localhost:5000/calculate', {})
+    this.http.post('http://127.0.0.1:5000/calculate', {})
       .subscribe(response => {
         console.log('Notification envoyée avec succès', response);
       }, error => {

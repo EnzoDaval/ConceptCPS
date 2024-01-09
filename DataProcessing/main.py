@@ -12,10 +12,10 @@ import matplotlib.dates as mdates
 import pandas as pd
 import pytz
 from flask import Flask, request, jsonify
-from InfluxDB.client import *
+# from flask_cors import CORS  # Import CORS
+# from InfluxDB.client import *
 from InfluxDB.dispositif import Dispositif
 from InfluxDB.data import Data
-
 
 NUMBER_OF_SENSORS = 2  # Bluetooth & Wifi
 
@@ -24,14 +24,17 @@ BLUETOOTH_SAMPLES = 15  # en minutes
 WIFI_SAMPLES = 15  # en minutes
 
 app = Flask(__name__)
+# cors = CORS(app)
 
+# Pour l'instant ça marche pas le print, j'arrive pas à installer cors pour changer lol
 @app.route('/calculate', methods=['POST'])
 def recevoir_notification():
     # Traitez la notification ici
     print('Notification reçue !')
     return jsonify({'message': 'Notification reçue avec succès'})
 
-def evaluate_presence(list_mac,id_dispositif):
+
+def evaluate_presence(list_mac, id_dispositif):
     current_time = datetime.utcnow()
     timezone = pytz.utc
     # influxdb_timestamp_max = pd.to_datetime((current_time + timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
@@ -76,18 +79,15 @@ def evaluate_presence(list_mac,id_dispositif):
     # Formattez l'axe des abscisses pour afficher uniquement l'heure et la minute
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
 
-
-# Ajoutez des étiquettes et un titre
+    # Ajoutez des étiquettes et un titre
     plt.xlabel('Timestamps')
     plt.ylabel('Valeurs')
     plt.title('Visualisation des valeurs avec timestamps')
     plt.legend()  # Ajoutez une légende pour indiquer quelle ligne correspond à quelle valeur
 
-
-# Affichez le tracé
+    # Affichez le tracé
     plt.savefig("test")
     plt.show(block=True)
-
 
 
 def post_final_presence(final_presence):
@@ -139,10 +139,10 @@ if __name__ == '__main__':
     # influxdb_timestamp_max = pd.to_datetime(current_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')).replace(tzinfo=timezone)
     # influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
 
-    data = get_data_in_horaire(horaire_debut,horaire_fin, "155")
+    data = get_data_in_horaire(horaire_debut, horaire_fin, "155")
     print("Data en lien avec cet horaire: ", data)
 
-    evaluate_presence(data,"155")
+    evaluate_presence(data, "155")
 
     app.run(port=5000)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
