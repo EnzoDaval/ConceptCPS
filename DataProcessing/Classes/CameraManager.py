@@ -1,5 +1,6 @@
 import cv2
 import os
+from Face_recognition.face_recognition import face_recognition_cli
 
 
 class CameraManager:
@@ -76,3 +77,6 @@ class CameraManager:
             if filename.endswith(('.jpg', '.jpeg', '.png')):
                 image_path = os.path.join(self.input_folder, filename)
                 self.detect_and_save_faces(image_path, self.output_folder)
+
+    def launch_face_recognition(self):
+        face_recognition_cli.main(self.input_folder, self.output_folder)

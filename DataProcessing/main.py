@@ -1,10 +1,20 @@
 # This is a sample Python script.
 # Importez la classe CameraManager depuis votre module (supposons que le module s'appelle camera_manager.py)
+import datetime
+import sys
+
+from InfluxDB.client import get_data_in_horaire, get_horaires
+
+sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
+
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import pandas as pd
 import pytz
-from InfluxDB.client import *  # API.InfluxDB import envoyer_donnees
 from flask import Flask, request, jsonify
+from InfluxDB.client import *
+from InfluxDB.dispositif import Dispositif
+from InfluxDB.data import Data
 
 
 NUMBER_OF_SENSORS = 2  # Bluetooth & Wifi
@@ -15,7 +25,6 @@ WIFI_SAMPLES = 15  # en minutes
 
 app = Flask(__name__)
 
-
 @app.route('/calculate', methods=['POST'])
 def recevoir_notification():
     # Traitez la notification ici
@@ -23,8 +32,15 @@ def recevoir_notification():
     return jsonify({'message': 'Notification reçue avec succès'})
 
 def evaluate_presence(list_mac,id_dispositif):
+    current_time = datetime.utcnow()
+    timezone = pytz.utc
+    # influxdb_timestamp_max = pd.to_datetime((current_time + timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+    # influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+
     horaires = get_horaires(id_dispositif)
-    horaire_debut, horaire_fin = horaires.split('-')
+    horaire_debut, horaire_fin = horaires.split('_')
+    horaire_debut = datetime.strptime(horaire_debut, '%Y-%m-%d %H:%M')
+    horaire_fin = datetime.strptime(horaire_fin, '%Y-%m-%d %H:%M')
 
     dictionnaire_valeurs = {}
 
@@ -54,10 +70,14 @@ def evaluate_presence(list_mac,id_dispositif):
         # Tracez les données triées pour cette valeur spécifique
         plt.plot(timestamps_sorted, valeurs_sorted, marker='o', linestyle='-', markersize=5, label=valeur)
 
-    # Limitez l'axe des abscisses entre les heures spécifiées
+    # Limitez l'axe des abscisses entre les valeurs spécifiées
     plt.xlim(horaire_debut, horaire_fin)
 
-    # Ajoutez des étiquettes et un titre
+    # Formattez l'axe des abscisses pour afficher uniquement l'heure et la minute
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+
+
+# Ajoutez des étiquettes et un titre
     plt.xlabel('Timestamps')
     plt.ylabel('Valeurs')
     plt.title('Visualisation des valeurs avec timestamps')
@@ -92,24 +112,37 @@ if __name__ == '__main__':
     # camManager.recuperation_images()
     # camManager.analyze_images_in_folder()
 
+    # Date fictive
+    # date_fictive = datetime.today()
+
+    # Création des dates fictives à 13h30 et 15h30
+    # date_13h30 = date_fictive.replace(hour=13, minute=30)
+    # date_15h30 = date_fictive.replace(hour=15, minute=30)
+    # date_range_string = f'{date_13h30.strftime("%Y-%m-%d %H:%M")}_{date_15h30.strftime("%Y-%m-%d %H:%M")}'
+
     # Mock de l'envoi des données
-    # dispositif = Dispositif(150, "Raspberry", "E305", "13h30-15h30", "Enzo, Morgane, Emilien")
+    # dispositif = Dispositif(155, "Raspberry", "E303", date_range_string, "Enzo, Morgane, Emilien")
     # envoyer_donnees_dispositif(dispositif)
 
-    # data = Data(150, ["MAC1", "MAC2", "MAC3", "MAC4"])
+    # data = Data(155, ["MAC1", "MAC2", "MAC3", "MAC4"])
     # envoyer_donnes_data(data)
 
-    horaires = get_horaires("150")
+    horaires = get_horaires("155")
     print("Horaires reçues: ", horaires)
+    tz = pytz.timezone('Europe/Paris')
+    horaire_debut, horaire_fin = horaires.split('_')
+    horaire_debut = datetime.strptime(horaire_debut, '%Y-%m-%d %H:%M').astimezone(tz)
+    horaire_fin = datetime.strptime(horaire_fin, '%Y-%m-%d %H:%M').astimezone(tz)
 
-    current_time = datetime.utcnow()
-    timezone = pytz.utc
-    influxdb_timestamp_max = pd.to_datetime(current_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')).replace(tzinfo=timezone)
-    influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+    # current_time = datetime.utcnow()
+    # timezone = pytz.utc
+    # influxdb_timestamp_max = pd.to_datetime(current_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')).replace(tzinfo=timezone)
+    # influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
 
-    data = get_data_in_horaire(influxdb_timestamp_min,influxdb_timestamp_max, "15")
+    data = get_data_in_horaire(horaire_debut,horaire_fin, "155")
     print("Data en lien avec cet horaire: ", data)
-    evaluate_presence(data,"150")
+
+    evaluate_presence(data,"155")
 
     app.run(port=5000)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
