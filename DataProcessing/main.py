@@ -6,7 +6,7 @@ import sys
 
 from InfluxDB.client import get_data_in_horaire, get_horaires
 
-sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
+#sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates

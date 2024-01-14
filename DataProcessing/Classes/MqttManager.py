@@ -13,7 +13,7 @@ MQTT_PORT = 2883 #1884
 
 class MqttManager:
     # Charger le fichier JSON
-    with open('Res/Eleves.json', 'r') as fichier_json:
+    with open('DataProcessing/Res/Eleves.json', 'r') as fichier_json:
         list_eleves = json.load(fichier_json)
 
     list_presence = {}
