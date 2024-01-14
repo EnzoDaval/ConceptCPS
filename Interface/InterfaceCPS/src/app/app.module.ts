@@ -15,6 +15,7 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SettingComponent } from './shared/components/setting/setting.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SettingComponent } from './shared/components/setting/setting.component'
     MatTableModule,
     MatSliderModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
