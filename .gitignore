@@ -13,4 +13,4 @@ InfluxDB/.idea/modules.xml
 
 **/.idea/
 
-**/__pycache__/
+__pycache__/
