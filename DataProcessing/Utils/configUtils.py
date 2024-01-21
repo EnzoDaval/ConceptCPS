@@ -1,6 +1,9 @@
 import json
+import time
 from collections import Counter
 from datetime import datetime, timedelta
+
+import pytz
 
 fichier_config = "DataProcessing/Res/Hyperplanning.json"
 
@@ -103,6 +106,7 @@ def replace_date_with_reference_day(timestamp, reference_day):
     result = last_day_of_week.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
     return result
+
 
 
 def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='DataProcessing/Res/Eleves.json'):

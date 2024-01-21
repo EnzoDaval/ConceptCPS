@@ -2,8 +2,6 @@ import bluetooth
 from scapy.layers.l2 import Ether, ARP
 from scapy.sendrecv import srp
 import paho.mqtt.client as mqtt
-#from envparse import env
-
 import sys
 import json
 
@@ -30,8 +28,8 @@ def scan_available_bluetooth_devices():
     return [{"MAC": address} for address, name in nearby_devices]
 
 # Configuration MQTT
-MQTT_HOST = '127.0.0.1'#env('MQTT_HOST', default='localhost')
-MQTT_PORT = 1884 #env.int('MQTT_PORT', default=1884)
+MQTT_HOST = "192.168.80.177"#env('MQTT_HOST', default='localhost')
+MQTT_PORT = 2884#env.int('MQTT_PORT', default=1884)
 
 # Connexion au broker MQTT
 client = mqtt.Client()
@@ -55,3 +53,4 @@ print("Données publiées avec succès.")
 # Déconnexion du broker MQTT
 client.disconnect()
 print("Déconnecté du broker MQTT.")
+
