@@ -9,13 +9,13 @@ export class SettingComponent {
   @Input() icon: string = 'settings';
   @Input() title: string = 'Setting Title';
   @Input() percentage: number = 50;
-  @Input() sliderValue: number = 50;
+  @Input() sliderValue: number = 15;
 
   @Output() sliderChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() percentageChange: EventEmitter<number> = new EventEmitter<number>();
 
-  tickInterval: number = 10;
-  tickLabels: string[] = Array.from({ length: 11 }, (_, i) => (i * 10).toString());
+  tickInterval: number = 1;
+  tickLabels: string[] = Array.from({ length: 18 }, (_, i) => (i * 2 + 1).toString());
 
   onSliderChange(event: any) {
     this.sliderValue = event.value;
