@@ -39,6 +39,16 @@ def recevoir_notification():
     return jsonify({'message': 'Notification reçue avec succès'})
 
 
+@app.route("/configs", methods=["POST"])
+def recevoir_configs():
+    configs = request.json  # Récupère les configurations depuis la requête POST en format JSON
+    print("Configs reçues :", configs)
+
+    # Ajoutez ici le code pour effectuer des opérations supplémentaires avec les configurations si nécessaire
+
+    return jsonify({'message': 'Configs reçues avec succès'})
+
+
 # Fonction pour remplacer les clés dans le dictionnaire
 def remplacer_cles_par_noms(mac_timestamp, adresse_type, chemin_fichier='DataProcessing/Res/Eleves.json'):
     new_dict = {}
@@ -95,7 +105,7 @@ def draw_presence_per_dispositif(list_mac, type_dispositif, numero_cours):
     for i, creneau in enumerate(creneaux):
         mac_timestamp = get_dict_nom_addr(list_mac, type_dispositif)
         print("Dictionnaire avec Noms: ", mac_timestamp)
-        #print("Counter: ",get_number_of_detections(mac_timestamp))
+        # print("Counter: ",get_number_of_detections(mac_timestamp))
         horaire_debut, horaire_fin = get_horaires(creneau)
         reference_day = get_reference_day(creneau)
         horaire_debut = replace_date_with_reference_day(horaire_debut, reference_day)
@@ -155,9 +165,9 @@ def evaluate_presence_per_creneau(creneau):
         data = get_data_in_horaire(horaire_debut, horaire_fin, dispositif, range=7)
         print("Data en lien avec cet horaire: ", data)
         type_dispositif = get_type_dispositif(dispositif)
-        list_mac = get_dict_nom_addr(data,type_dispositif)
+        list_mac = get_dict_nom_addr(data, type_dispositif)
         presence_dispositif = get_number_of_detections(list_mac)
-        number_of_samples = get_number_of_samples(horaire_debut,horaire_fin,type_dispositif)
+        number_of_samples = get_number_of_samples(horaire_debut, horaire_fin, type_dispositif)
         ponderation += number_of_samples
 
         for personne, nombre_timestamps in presence_dispositif:
@@ -170,9 +180,9 @@ def evaluate_presence_per_creneau(creneau):
 
     for personne, valeurs in presence_temp.items():
         somme_valeurs = sum(valeurs)
-        presence_finale[personne] = somme_valeurs/ponderation
+        presence_finale[personne] = somme_valeurs / ponderation
 
-    print("Presence avec calcul des moyennes pondérées: ",presence_finale)
+    print("Presence avec calcul des moyennes pondérées: ", presence_finale)
     return presence_finale
 
 
@@ -236,5 +246,5 @@ if __name__ == '__main__':
     evaluate_presence_per_creneau(creneaux[1])
     # get_number_of_samples("2024-01-16T14:00:00.104000Z","2024-01-16T18:00:00.104000Z","Bluetooth")
 
-    # app.run(host="0.0.0.0",port=5000,debug=True)
+    app.run(host="0.0.0.0",port=5000,debug=True)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
