@@ -31,11 +31,18 @@ app = Flask(__name__)
 cors = CORS(app)
 
 
-@app.route("/calculate")
+@app.route("/calculate", methods=["POST"])
 def recevoir_notification():
     # Traitez la notification ici
-    print('Notification reçue !')
+    data = request.get_json()
+
+    if "classNumber" in data:
+        class_number = data["classNumber"]
+        print(f'Notification reçue pour la classe {class_number} !')
+        # Utilisez class_number comme nécessaire dans votre logique
+
     get_final_presence()
+
     return jsonify({'message': 'Notification reçue avec succès'})
 
 

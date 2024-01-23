@@ -1,0 +1,43 @@
+button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* my-class-component.component.css */
+
+/* Container styles */
+.class-container {
+  min-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title styles */
+.class-container h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Disabled state for the button */
+.class-container button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+

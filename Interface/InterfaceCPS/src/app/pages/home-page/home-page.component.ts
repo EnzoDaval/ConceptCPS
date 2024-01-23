@@ -8,18 +8,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  calculateThePresence(){
-    this.http.post('http://127.0.0.1:5000/calculate', {})
-      .subscribe(response => {
-        console.log('Notification envoyée avec succès', response);
-      }, error => {
-        console.error('Erreur lors de l\'envoi de la notification', error);
-      });
-  }
+
 
 }
