@@ -1,4 +1,3 @@
-import bluetooth
 from scapy.layers.l2 import Ether, ARP
 from scapy.sendrecv import srp
 import paho.mqtt.client as mqtt

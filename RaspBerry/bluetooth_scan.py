@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 import time
+import bluetooth
 
 from scapy.layers.l2 import Ether, ARP
 from scapy.sendrecv import srp
@@ -17,7 +20,7 @@ class MqttManager:
     """with open('DataProcessing/Res/Eleves.json', 'r') as fichier_json:
         list_eleves = json.load(fichier_json)"""
 
-    dispositif_id = get_id()
+    dispositif_id = -1
     client = None
 
     def __init__(self, dispositif_id):
@@ -36,7 +39,6 @@ class MqttManager:
         print("Connected with resultcode {0}".format(str(rc)))
         # Subscribe to the topic “digitest/test1”, receive any messages published on it
         client.subscribe("raspberry/" + str(self.dispositif_id))
-        # client.subscribe("raspberry/wifi")
 
     def on_message(self, client, userdata, msg):  # The callback for when a PUBLISH message is received from the server.
         print("Message received-> " + msg.topic)  # Print a received msg
@@ -57,25 +59,26 @@ class MqttManager:
 
 
 # Définition des listes pour les adresses MAC et IP
-mac_ip_adresses_wifi = []
+mac_ip_adresses_bluetooth = []
 
-def scan_wifi(ip_range,debut,fin,sampling):
+def scan_bluetooth(debut,fin,sampling):
     horaire_act = get_actual_date()
     timestamp_act_datetime = datetime.fromisoformat(horaire_act)
     while debut <= timestamp_act_datetime <= fin:
-        scan = arp_scan(ip_range)
-        client.publish_data("raspberry/wifi", scan)
+        scan = scan_available_bluetooth_devices()
+        print("données: ",scan)
+        client.publish_data("raspberry/bluetooth", scan)
         print(f"Attente de {sampling} minutes pour un autre scan")
         time.sleep(sampling*60)
 
-def arp_scan(ip_range):
-    request = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst=ip_range)
-    ans, unans = srp(request, timeout=2, retry=1)
+def scan_available_bluetooth_devices():
+    print("Scanning for available Bluetooth devices...")
+    nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True, lookup_class=False)
 
-    for sent, received in ans:
-        mac_ip_adresses_wifi.append({"MAC": received.hwsrc})
+    for address, name in nearby_devices:
+        mac_ip_adresses_bluetooth.append({"MAC": address})
 
-    return [{"MAC": received.hwsrc} for sent, received in ans]
+    return [{"MAC": address} for address, name in nearby_devices]
 
 
 '''def start_scanning(client):
@@ -91,7 +94,6 @@ def ask_config(client):
 # scan_available_bluetooth_devices()
 
 if __name__ == '__main__':
-    ip_range = sys.argv[1]  # "172.20.10.1/24"
     id_dispositif = get_id()
     client = MqttManager(id_dispositif)
 
@@ -120,9 +122,9 @@ if __name__ == '__main__':
                 fin_datetime = fin_datetime.replace(tzinfo=timezone_1_hour)
 
                 if debut_datetime <= timestamp_actuel_datetime <= fin_datetime:
-                    print("Le timestamp actuel est entre le début et la fin du créneau. Debut du sampling...")
+                    print("Le timestamp actuel est entre le debut et la fin du creneau. Debut du sampling...")
                     sampling = get_sampling()
-                    scan_wifi(ip_range,debut_datetime,fin_datetime,sampling)
+                    scan_bluetooth(debut_datetime,fin_datetime,sampling)
                 else:
                     difference = debut_datetime - timestamp_actuel_datetime - timedelta(hours=1)
                     if difference >= timedelta(0) and difference < difference_minimale:
@@ -130,23 +132,23 @@ if __name__ == '__main__':
                         creneau_le_plus_proche = creneau
 
             if creneau_le_plus_proche is not None:
-                print(f"Le créneau le plus proche est {creneau_le_plus_proche}.")
-                print(f"Il est séparé de l'heure actuelle par {difference_minimale}.")
+                print(f"Le creneau le plus proche est {creneau_le_plus_proche}.")
+                print(f"Il est separe de l'heure actuelle par {difference_minimale}.")
                 # Convertir la différence en secondes
                 difference_en_secondes = int(difference_minimale.total_seconds())
 
                 # Faire un time.sleep de la durée spécifiée
                 print(f"En attente pendant {difference_en_secondes} secondes...")
                 time.sleep(difference_en_secondes)
-                print("Attente terminée.")
+                print("Attente terminee.")
                 sampling = get_sampling()
-                scan_wifi(ip_range,debut_datetime,fin_datetime,sampling)
+                scan_bluetooth(debut_datetime,fin_datetime,sampling)
 
             else:
-                print("Aucun créneau trouvé.")
+                print("Aucun creneau trouve.")
 
     except KeyboardInterrupt:
-        print("\nSortie par Ctrl+C. Arrêt du programme.")
+        print("\nSortie par Ctrl+C. Arret du programme.")
         client.disconnect()
         reboot()
 
