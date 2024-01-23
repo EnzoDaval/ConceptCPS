@@ -7,7 +7,6 @@ import os
 import glob
 
 from flask_cors import CORS
-from flask import Flask, request, jsonify, send_file, url_for
 
 from InfluxDB.client import get_data_in_horaire, envoyer_donnes_data
 from DataProcessing.Utils.configUtils import *
@@ -18,58 +17,37 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
 import pytz
-from flask import Flask, request, jsonify
 # from flask_cors import CORS  # Import CORS
 # from InfluxDB.client import *
 from InfluxDB.dispositif import Dispositif
 from InfluxDB.data import Data
 
-NUMBER_OF_SENSORS = 2  # Bluetooth & Wifi
+def update_configs(client):
+    print("Mise à jour des configs")
+    with open("DataProcessing/Res/Dispositifs.json", 'r') as file:
+        devices_data = json.load(file)
 
-BLUETOOTH_SAMPLES = 15  # en minutes
+    with open("DataProcessing/Res/Sampling.json", 'r') as file:
+        sampling_data = json.load(file)
 
-WIFI_SAMPLES = 15  # en minutes
+    # Créer un dictionnaire de type_dispositif vers sampling
+    sampling_dict = {entry["type_dispositif"].capitalize(): entry["sampling"] for entry in sampling_data}
 
-app = Flask(__name__)
-cors = CORS(app)
+    # Parcourir les dispositifs et mettre à jour en fonction du type_dispositif
+    for device in devices_data:
+        device_id = device["id"]
+        device_type = device["type_dispositif"][0].capitalize() if isinstance(device["type_dispositif"], list) else device["type_dispositif"].capitalize()
+        salle = device["salle"]
 
-@app.route("/get_image")
-def get_image():
-    # Utilisez la fonction glob pour rechercher le fichier commencant par "EIIN"
-    image_files = glob.glob(os.path.join(os.getcwd(), 'EIIN*.png'))
+        # Vérifier si le type_dispositif est présent dans le fichier sampling
+        if device_type in sampling_dict:
+            sampling_value = sampling_dict[device_type]
+            # Appeler la fonction 'update' avec les paramètres nécessaires
+            creneaux = get_creneaux_par_salle(salle)
+            print("publication sur le device: "+str(device_id))
+            client.publish("raspberry/"+str(device_id)+"/setup",creer_json_config(device_id,device_type,sampling_value,creneaux))
 
-    if image_files:
-        # Utilisez le premier fichier correspondant trouvé
-        image_path = image_files[0]
-        return send_file(image_path, mimetype='image/png')
-    else:
-        return jsonify({'error': 'Image not found'})
-
-@app.route("/calculate", methods=["POST"])
-def recevoir_notification():
-    # Traitez la notification ici
-    data = request.get_json()
-
-    if "classNumber" in data:
-        class_number = data["classNumber"]
-        print(f'Notification reçue pour la classe {class_number} !')
-        # Utilisez class_number comme nécessaire dans votre logique
-
-    get_final_presence()
-
-    image_url = url_for('get_image', _external=True)
-    return jsonify({'message': 'Notification reçue avec succès', 'image_url': image_url})
-
-
-@app.route("/configs", methods=["POST"])
-def recevoir_configs():
-    configs = request.json  # Récupère les configurations depuis la requête POST en format JSON
-    print("Configs reçues :", configs)
-
-    # Ajoutez ici le code pour effectuer des opérations supplémentaires avec les configurations si nécessaire
-
-    return jsonify({'message': 'Configs reçues avec succès'})
-
+    return None
 
 # Fonction pour remplacer les clés dans le dictionnaire
 def remplacer_cles_par_noms(mac_timestamp, adresse_type, chemin_fichier='DataProcessing/Res/Eleves.json'):
@@ -218,7 +196,7 @@ if __name__ == '__main__':
     from Classes.MqttManager import MqttManager
 
     # camManager = CameraManager()  # Press Maj+F10 to execute it or replace it with your code.
-    # mqttManager = MqttManager()
+    mqttManager = MqttManager()
 
     # camManager.recuperation_images()
     # camManager.analyze_images_in_folder()
@@ -264,9 +242,8 @@ if __name__ == '__main__':
 
     draw_presence_per_dispositif(data, 'Wifi', "EIIN905")"""
 
-    creneaux = get_creneaux('EIIN905')
-    evaluate_presence_per_creneau(creneaux[1])
+    # creneaux = get_creneaux('EIIN905')
+    # evaluate_presence_per_creneau(creneaux[1])
     # get_number_of_samples("2024-01-16T14:00:00.104000Z","2024-01-16T18:00:00.104000Z","Bluetooth")
 
-    app.run(host="0.0.0.0",port=5000,debug=True)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

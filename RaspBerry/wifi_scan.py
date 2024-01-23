@@ -35,13 +35,12 @@ class MqttManager:
         # Print result of connection attempt
         print("Connected with resultcode {0}".format(str(rc)))
         # Subscribe to the topic “digitest/test1”, receive any messages published on it
-        client.subscribe("raspberry/" + str(self.dispositif_id))
-        # client.subscribe("raspberry/wifi")
+        client.subscribe("raspberry/" + str(self.dispositif_id)+"/setup")
 
     def on_message(self, client, userdata, msg):  # The callback for when a PUBLISH message is received from the server.
         print("Message received-> " + msg.topic)  # Print a received msg
-        if msg.topic == "raspberry/" + str(self.dispositif_id):
-            update_config(msg.payload)
+        if msg.topic == "raspberry/" + str(self.dispositif_id)+"/setup":
+            update_config(json.loads(msg.payload))
 
     def publish_data(self, topic, msg):
         return self.client.publish(topic, json.dumps(msg))
@@ -64,7 +63,7 @@ def scan_wifi(ip_range,debut,fin,sampling):
     timestamp_act_datetime = datetime.fromisoformat(horaire_act)
     while debut <= timestamp_act_datetime <= fin:
         scan = arp_scan(ip_range)
-        client.publish_data("raspberry/wifi", scan)
+        client.publish_data("raspberry/"+str(get_id())+"/data", scan)
         print(f"Attente de {sampling} minutes pour un autre scan")
         time.sleep(sampling*60)
 
@@ -81,12 +80,6 @@ def arp_scan(ip_range):
 '''def start_scanning(client):
     config_state = get_config()
     if config_state == 'boot':'''
-
-
-def ask_config(client):
-    id = get_id()
-    client.publish('raspberry/config',id)
-
 # arp_scan(ip_range)
 # scan_available_bluetooth_devices()
 
@@ -94,8 +87,11 @@ if __name__ == '__main__':
     ip_range = sys.argv[1]  # "172.20.10.1/24"
     id_dispositif = get_id()
     client = MqttManager(id_dispositif)
+    client.loop_start()
 
+    client.publish_data("raspberry/"+str(id_dispositif)+"/config","up")
     while get_config() == 'boot':
+        client.publish_data("raspberry/"+str(id_dispositif)+"/config","up")
         print('No config received, going to sleep for 10s...')
         time.sleep(10)
 
@@ -143,10 +139,12 @@ if __name__ == '__main__':
                 scan_wifi(ip_range,debut_datetime,fin_datetime,sampling)
 
             else:
-                print("Aucun créneau trouvé.")
+                print("Aucun futur créneau trouvé.")
+                break
 
     except KeyboardInterrupt:
         print("\nSortie par Ctrl+C. Arrêt du programme.")
+        client.loop_stop()
         client.disconnect()
         reboot()
 

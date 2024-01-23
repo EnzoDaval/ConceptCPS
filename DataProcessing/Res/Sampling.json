@@ -1,0 +1,14 @@
+[
+  {
+    "type_dispositif": "Camera",
+    "sampling": 16
+  },
+  {
+    "type_dispositif": "Bluetooth",
+    "sampling": 9
+  },
+  {
+    "type_dispositif": "Wifi",
+    "sampling": 18
+  }
+]

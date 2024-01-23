@@ -82,30 +82,32 @@ Retourne le timestamp donné à la bonne date
 '''
 
 
-def replace_date_with_reference_day(timestamp, reference_day):
-    # Convertir le timestamp en objet datetime
-    dt = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+def replace_date_with_reference_day(timestamp_past, reference_day):
+    # Convertissez la chaîne en objet datetime
+    timestamp = datetime.strptime(timestamp_past, "%Y-%m-%dT%H:%M:%S.%fZ")
 
-    # Trouver le jour actuel de la semaine (0 pour lundi, 1 pour mardi, ..., 6 pour dimanche)
-    current_weekday = dt.weekday()
+    # Obtenez la date d'aujourd'hui
+    aujourdhui = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
-    # Trouver le jour de la semaine pour la référence
     reference_weekday = {'Lundi': 0, 'Mardi': 1, 'Mercredi': 2, 'Jeudi': 3, 'Vendredi': 4, 'Samedi': 5,
                          'Dimanche': 6}.get(reference_day)
 
-    if reference_weekday is None:
-        raise ValueError("Jour de référence invalide")
+    # Calculez la différence de jours entre aujourd'hui et le jour de référence passé
+    difference_jours = (aujourdhui.weekday() - reference_weekday) % 7
 
-    # Calculer le nombre de jours à soustraire pour atteindre le dernier jour de la semaine
-    days_to_subtract = ((current_weekday - reference_weekday) % 7) - 7
+    # Si aujourd'hui est le jour de référence, retournez le timestamp initial
+    if difference_jours == 0:
+        return aujourdhui.replace(hour=timestamp.hour, minute=timestamp.minute,
+                                  second=timestamp.second, microsecond=timestamp.microsecond)
 
-    # Soustraire le nombre de jours nécessaire
-    last_day_of_week = dt - timedelta(days=days_to_subtract)
+    # Calculez la nouvelle date en ajustant la date actuelle
+    nouvelle_date = aujourdhui - timedelta(days=difference_jours)
 
-    # Formater le résultat en chaîne de caractères
-    result = last_day_of_week.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    # Créez un nouveau timestamp avec la nouvelle date et les heures du timestamp initial
+    nouveau_timestamp = nouvelle_date.replace(hour=timestamp.hour, minute=timestamp.minute,
+                                              second=timestamp.second, microsecond=timestamp.microsecond)
 
-    return result
+    return nouveau_timestamp
 
 
 
@@ -178,6 +180,15 @@ def get_dispositif_salle(salle_recherche,nom_fichier_json="Dataprocessing/Res/Di
 
     return resultats
 
+def get_all_dispositifs(nom_fichier_json="Dataprocessing/Res/Dispositifs.json"):
+    # Lire le contenu du fichier JSON
+    with open(nom_fichier_json, "r") as fichier:
+        contenu_json = json.load(fichier)
+
+    # Récupérer uniquement les identifiants (id)
+    return [item["id"] for item in contenu_json]
+
+
 def get_number_of_samples(horaire_debut,horaire_fin,type_dispositif):
     from DataProcessing.main import WIFI_SAMPLES,BLUETOOTH_SAMPLES
     sampling = None
@@ -210,6 +221,54 @@ def get_number_of_detections(dict):
 
     return compteur_timestamps_par_personne.items()
 
+
+def creer_json_config(id, type_dispositif, sampling, creneaux):
+    # Création du dictionnaire principal
+    config_data = {
+        "config": "setup",
+        "id": id,
+        "type": type_dispositif,
+        "sampling": sampling,
+        "creneaux": []
+    }
+
+    # Ajout des créneaux au dictionnaire principal
+    for creneau in creneaux:
+        creneau_data = {
+            "heureDebut": creneau["heureDebut"],
+            "heureFin": creneau["heureFin"],
+            "jour": creneau["jour"]
+        }
+        config_data["creneaux"].append(creneau_data)
+
+    # Convertir le dictionnaire en une chaîne JSON
+    json_config = json.dumps([config_data], indent=2)
+    return json_config
+
+def get_creneaux_par_salle(salle_recherchee):
+    with open(fichier_config, 'r') as fichier:
+        json_data = json.load(fichier)
+
+        creneaux_trouves = []
+
+        for cours in json_data:
+            for creneau in cours["creneaux"]:
+                if creneau["salle"] == salle_recherchee:
+                    creneaux_trouves.append(creneau)
+
+        return creneaux_trouves
+
+
+def get_sampling_for_device_type(device_type, json_file_path="DataProcessing/Res/Sampling.json"):
+    with open(json_file_path, 'r') as file:
+        data = json.load(file)
+
+    for entry in data:
+        if entry["type_dispositif"] == device_type:
+            return entry["sampling"]
+
+    # Si le type de dispositif n'est pas trouvé, vous pouvez renvoyer une valeur par défaut ou lever une exception, selon vos besoins.
+    return None
 
 # Chemin vers votre fichier JSON
 
