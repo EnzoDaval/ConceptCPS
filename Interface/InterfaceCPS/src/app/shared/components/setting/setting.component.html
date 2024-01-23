@@ -8,16 +8,16 @@
   </div>
   </div>
   <div class="both-settings-container">
-  <div class="percentage-label">
+  <!--<div class="percentage-label">
     <h3>Prise en compte</h3>
     <input type="number" [(ngModel)]="percentage" min="0" max="100" (ngModelChange)="onPercentageChange($event)"/>%
-  </div>
+  </div>-->
   <div class="slider-container">
-    <h3>Rayon de détection</h3>
+    <h3>Échantillonnage</h3>
     <mat-slider
       [(ngModel)]="sliderValue"
-      min="0"
-      max="100"
+      min="1"
+      max="35"
       [step]="tickInterval"
       [tickInterval]="tickInterval"
       (change)="onSliderChange($event)"

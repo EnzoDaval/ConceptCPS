@@ -16,6 +16,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SettingComponent } from './shared/components/setting/setting.component';
 import {HttpClientModule} from "@angular/common/http";
+import { ClasseComponent } from './shared/components/classe/classe.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {HttpClientModule} from "@angular/common/http";
     SettingsPageComponent,
     DashboardPageComponent,
     HomePageComponent,
-    SettingComponent
+    SettingComponent,
+    ClasseComponent
   ],
   imports: [
     BrowserModule,

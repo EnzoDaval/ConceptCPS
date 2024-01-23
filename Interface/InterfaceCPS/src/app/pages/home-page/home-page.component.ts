@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {LoadingService} from "../../shared/services/loading.service";
 
 @Component({
   selector: 'app-home-page',
@@ -7,19 +8,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-
-  constructor(private http: HttpClient) { }
+  loading: boolean = false;
+  constructor(private loadingService: LoadingService) { }
 
   ngOnInit(): void {
+    this.loadingService.loading$.subscribe(loading => {
+      this.loading = loading;
+    });
   }
 
-  calculateThePresence(){
-    this.http.post('http://127.0.0.1:5000/calculate', {})
-      .subscribe(response => {
-        console.log('Notification envoyée avec succès', response);
-      }, error => {
-        console.error('Erreur lors de l\'envoi de la notification', error);
-      });
-  }
+
 
 }

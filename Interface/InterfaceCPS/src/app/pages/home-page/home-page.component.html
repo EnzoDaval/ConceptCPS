@@ -1,3 +1,10 @@
 <div class="big-container">
-  <button (click)="calculateThePresence()">Calculer</button>
+  <div *ngIf="loading">
+    Chargement en cours...
+  </div>
+  <div class="classes-container" *ngIf="!loading">
+  <app-classe [className]="'CDSCP'" [classNumber]="'EIIN905'"></app-classe>
+  <app-classe [className]="'IHM Adaptation'" [classNumber]="'EIIN910'"></app-classe>
+  <app-classe [className]="'IHM Répartie'" [classNumber]="'EIIN910'"></app-classe>
+  </div>
 </div>

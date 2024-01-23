@@ -1,15 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as saveAs from 'file-saver';
+import { writeFile } from 'fs';
+import { resolve } from 'path';
+import {HttpClient} from "@angular/common/http";
 
 interface SettingsData {
-  fetchFrequency: number;
-  camera: SettingData;
-  bluetooth: SettingData;
-  wifi: SettingData;
+  //fetchFrequency: number;
+  camera: number;
+  bluetooth:  number;
+  wifi: number;
 }
 
 interface SettingData {
-  percentage: number;
+  //percentage: number;
   sliderValue: number;
 }
 
@@ -19,13 +22,13 @@ interface SettingData {
   styleUrls: ['./settings-page.component.css']
 })
 export class SettingsPageComponent implements OnInit {
-  fetchFrequency: number = 15;
+  //fetchFrequency: number = 15;
   settings: { [key: string]: SettingData } = {
-    camera: { percentage: 20, sliderValue: 50 },
-    bluetooth: { percentage: 30, sliderValue: 50 },
-    wifi: { percentage: 50, sliderValue: 50 }
+    camera: { sliderValue: 50 },
+    bluetooth: { sliderValue: 50 },
+    wifi: { sliderValue: 50 }
   };
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -35,32 +38,30 @@ export class SettingsPageComponent implements OnInit {
   }
 
   onPercentageChange(setting: string, value: number) {
-    this.settings[setting].percentage = value;
+    //this.settings[setting].percentage = value;
   }
   generateJsonFile() {
-    if (this.getSumOfPercentages() !== 100) {
-      alert('La somme des pourcentages doit être égal à 100');
-      return;
-    }
-
     const settingsData: SettingsData = {
-      fetchFrequency: this.fetchFrequency,
-      camera: { percentage: this.settings['camera'].percentage, sliderValue: this.settings['camera'].sliderValue },
-      bluetooth: { percentage: this.settings['bluetooth'].percentage, sliderValue: this.settings['bluetooth'].sliderValue },
-      wifi: { percentage: this.settings['wifi'].percentage, sliderValue: this.settings['wifi'].sliderValue },
+      camera: this.settings['camera'].sliderValue,
+      bluetooth: this.settings['bluetooth'].sliderValue,
+      wifi: this.settings['wifi'].sliderValue,
     };
 
-    const jsonContent = JSON.stringify(settingsData, null, 2);
-    console.log(jsonContent);
-
-    const blob = new Blob([jsonContent], { type: 'application/json' });
-    saveAs(blob, 'settings.json');
+    this.http.post('http://127.0.0.1:5000/configs', settingsData).subscribe(
+      (response) => {
+        console.log('Settings updated successfully on the server:', response);
+      },
+      (error) => {
+        console.error('Error updating settings on the server:', error);
+      }
+    );
   }
 
   private getSumOfPercentages(): number {
-    return Object.values(this.settings).reduce(
-      (sum, setting) => sum + setting.percentage,
-      0
-    );
+    //return Object.values(this.settings).reduce(
+      //(sum, setting) => sum + setting.percentage,
+      //0
+    //);
+    return 0;
   }
 }
