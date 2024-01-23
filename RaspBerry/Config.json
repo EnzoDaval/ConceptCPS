@@ -1,0 +1,19 @@
+[
+  {
+    "config": "setup",
+    "id": 155,
+    "type": "",
+    "creneaux": [
+      {
+        "heureDebut": "2024-01-16T23:00:00.104000Z",
+        "heureFin": "2024-01-16T23:30:00.104000Z",
+        "jour": "Dimanche"
+      },
+      {
+        "heureDebut": "2024-01-16T23:40:00.104000Z",
+        "heureFin": "2024-01-16T23:50:00.104000Z",
+        "jour": "Dimanche"
+      }
+    ]
+  }
+]

@@ -10,3 +10,7 @@ DataProcessing/.idea/workspace.xml
 InfluxDB/.idea/InfluxDB.iml
 InfluxDB/.idea/misc.xml
 InfluxDB/.idea/modules.xml
+
+**/.idea/
+
+__pycache__/

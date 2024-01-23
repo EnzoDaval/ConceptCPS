@@ -4,9 +4,12 @@ import datetime
 import json
 import sys
 
-from InfluxDB.client import get_data_in_horaire, get_horaires
+from flask_cors import CORS
 
-sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
+from InfluxDB.client import get_data_in_horaire, envoyer_donnes_data
+from DataProcessing.Utils.configUtils import *
+
+# sys.path.insert(1, 'C:/Users/thoma/Documents/Devoirs/.POLY SOPHIA/S9/cyberphysique/proj/ConceptCPS/InfluxDB')
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -25,53 +28,44 @@ BLUETOOTH_SAMPLES = 15  # en minutes
 WIFI_SAMPLES = 15  # en minutes
 
 app = Flask(__name__)
-# cors = CORS(app)
+cors = CORS(app)
 
-# Pour l'instant ça marche pas le print, j'arrive pas à installer cors pour changer lol
-@app.route('/calculate', methods=['POST'])
+
+@app.route("/calculate")
 def recevoir_notification():
     # Traitez la notification ici
     print('Notification reçue !')
+    get_final_presence()
     return jsonify({'message': 'Notification reçue avec succès'})
-def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='Res/Eleves.json'):
-    try:
-        with open(chemin_fichier, 'r') as fichier:
-            eleves = json.load(fichier)
-            for eleve in eleves:
-                if eleve['Adresse_MAC_Wifi'].lower() == adresse_mac_wifi.lower():
-                    return eleve['Prenom'], eleve['Nom']
-    except FileNotFoundError:
-        print("Fichier non trouvé.")
-    except json.JSONDecodeError:
-        print("Erreur de formatage du fichier JSON.")
-
-    return None
-
-def trouver_eleve_par_bluetooth(adresse_mac_bluetooth, chemin_fichier='Res/Eleves.json'):
-    try:
-        with open(chemin_fichier, 'r') as fichier:
-            eleves = json.load(fichier)
-            for eleve in eleves:
-                if eleve['Adresse_MAC_Bluetooth'].lower() == adresse_mac_bluetooth.lower():
-                    return eleve['Prenom'], eleve['Nom']
-    except FileNotFoundError:
-        print("Fichier non trouvé.")
-    except json.JSONDecodeError:
-        print("Erreur de formatage du fichier JSON.")
 
 
-def evaluate_presence(list_mac, id_dispositif):
-    current_time = datetime.utcnow()
-    timezone = pytz.utc
-    # influxdb_timestamp_max = pd.to_datetime((current_time + timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
-    # influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+# Fonction pour remplacer les clés dans le dictionnaire
+def remplacer_cles_par_noms(mac_timestamp, adresse_type, chemin_fichier='DataProcessing/Res/Eleves.json'):
+    new_dict = {}
 
-    horaires = get_horaires(id_dispositif)
-    horaire_debut, horaire_fin = horaires.split('_')
-    horaire_debut = datetime.strptime(horaire_debut, '%Y-%m-%d %H:%M')
-    horaire_fin = datetime.strptime(horaire_fin, '%Y-%m-%d %H:%M')
+    for mac_address, timestamps in mac_timestamp.items():
+        if adresse_type == 'WiFi':
+            packed_result = trouver_eleve_par_wifi(mac_address, chemin_fichier)
+            if packed_result:
+                prenom, nom = packed_result
+        elif adresse_type == 'Bluetooth':
+            packed_result = trouver_eleve_par_bluetooth(mac_address, chemin_fichier)
+            if packed_result:
+                prenom, nom = packed_result
+        else:
+            raise ValueError("Type d'adresse non valide. Utilisez 'Wifi' ou 'Bluetooth'.")
 
-    dictionnaire_valeurs = {}
+        if prenom and nom:
+            nom_prenom = f"{prenom}_{nom}"
+            new_dict[nom_prenom] = timestamps
+
+    return new_dict
+
+
+def get_dict_nom_addr(list_mac, type_dispositif):
+    tz = pytz.timezone('Europe/Paris')
+
+    mac_timestamp = {}
 
     for entry in list_mac:
         valeur_separee = entry['_value'].split(',')
@@ -79,52 +73,111 @@ def evaluate_presence(list_mac, id_dispositif):
         # Parcours de chaque valeur séparée
         for v in valeur_separee:
             # Si la clé existe déjà dans le dictionnaire, ajoutez le timestamp à la liste existante
-            if v in dictionnaire_valeurs:
-                dictionnaire_valeurs[v].append(entry['_time'])
+            if v in mac_timestamp:
+                mac_timestamp[v].append(entry['_time'].astimezone(tz))
             else:
                 # Sinon, créez la clé et initialisez la liste avec le timestamp
-                dictionnaire_valeurs[v] = [entry['_time']]
+                mac_timestamp[v] = [entry['_time'].astimezone(tz)]
 
-    # À la fin, dictionnaire_valeurs contient les valeurs uniques en tant que clés,
+    # À la fin, mac_timestamp contient les valeurs uniques en tant que clés,
     # et chaque valeur a une liste de timestamps associés
-    print(dictionnaire_valeurs)
+    print("Dictionnaire avec MAC: ", mac_timestamp)
+    return remplacer_cles_par_noms(mac_timestamp, type_dispositif)
 
-    # Créez un tracé pour chaque valeur
-    for valeur, liste_timestamps in dictionnaire_valeurs.items():
-        # Triez les données par timestamp
-        data_sorted = sorted(zip(liste_timestamps, [valeur] * len(liste_timestamps)), key=lambda x: x[0])
 
-        timestamps_sorted, valeurs_sorted = zip(*data_sorted)
+def draw_presence_per_dispositif(list_mac, type_dispositif, numero_cours):
+    creneaux = get_creneaux(numero_cours)
 
-        # Tracez les données triées pour cette valeur spécifique
-        plt.plot(timestamps_sorted, valeurs_sorted, marker='o', linestyle='-', markersize=5, label=valeur)
+    # Créez une seule figure pour tous les créneaux
+    fig, axs = plt.subplots(len(creneaux), 1, figsize=(8, 4 * len(creneaux)))
+    jour = None
+    # Boucle sur chaque créneau
+    for i, creneau in enumerate(creneaux):
+        mac_timestamp = get_dict_nom_addr(list_mac, type_dispositif)
+        print("Dictionnaire avec Noms: ", mac_timestamp)
+        #print("Counter: ",get_number_of_detections(mac_timestamp))
+        horaire_debut, horaire_fin = get_horaires(creneau)
+        reference_day = get_reference_day(creneau)
+        horaire_debut = replace_date_with_reference_day(horaire_debut, reference_day)
+        horaire_fin = replace_date_with_reference_day(horaire_fin, reference_day)
+        print(horaire_debut, horaire_fin)
 
-    # Limitez l'axe des abscisses entre les valeurs spécifiées
-    plt.xlim(horaire_debut, horaire_fin)
+        # Créez un sous-graphique pour chaque créneau
+        ax = axs[i]
 
-    # Formattez l'axe des abscisses pour afficher uniquement l'heure et la minute
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+        for valeur, liste_timestamps in mac_timestamp.items():
+            data_sorted = sorted(zip(liste_timestamps, [valeur] * len(liste_timestamps)), key=lambda x: x[0])
+            timestamps_sorted, valeurs_sorted = zip(*data_sorted)
+            ax.plot(timestamps_sorted, valeurs_sorted, marker='o', linestyle='-', markersize=5, label=valeur)
 
-    # Ajoutez des étiquettes et un titre
-    plt.xlabel('Timestamps')
-    plt.ylabel('Valeurs')
-    plt.title('Visualisation des valeurs avec timestamps')
-    plt.legend()  # Ajoutez une légende pour indiquer quelle ligne correspond à quelle valeur
+        horaire_debut_simple = datetime.strptime(horaire_debut, "%Y-%m-%dT%H:%M:%S.%fZ")
+        horaire_fin_simple = datetime.strptime(horaire_fin, "%Y-%m-%dT%H:%M:%S.%fZ")
+        horaire_debut_num = mdates.date2num(horaire_debut_simple)
+        horaire_fin_num = mdates.date2num(horaire_fin_simple)
+        ax.set_xlim(horaire_debut_num, horaire_fin_num)
+        # Configuration de l'axe des abscisses avec le fuseau horaire
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+        ax.xaxis_date('Europe/Paris')
+        ax.set_xlabel('Heures')
+        ax.set_ylabel('Elèves')
 
-    # Affichez le tracé
-    plt.savefig("test")
+        jour = horaire_debut_simple.strftime("%d/%m/%y")
+        representation_horaire = f"{horaire_debut_simple.strftime('%Hh')}-{horaire_fin_simple.strftime('%Hh')}"
+
+        ax.set_title(
+            f'Présences pour le créneau {representation_horaire} du cours {numero_cours} du {reference_day} {jour}')
+        ax.legend()
+
+    # Ajustez l'espacement entre les sous-graphiques pour éviter les chevauchements
+    plt.tight_layout()
+
+    # Sauvegarder le tracé dans un fichier unique
+    plt.savefig(numero_cours + "_" + type_dispositif + "_" + "-".join(jour.split('/')) + ".png")
     plt.show(block=True)
 
 
-def post_final_presence(final_presence):
-    '''final_presence_eleve = []
-    for person in final_presence.values():
-        nom = person.get('Nom')
-        prenom = person.get('Prenom')
-        presence = True if person.get('Presence') == 'True' else False
-        certitude = round(float(person.get('Precision')))
-        final_presence_eleve.append(Eleve(nom, prenom, presence, certitude))
-    envoyer_donnees(final_presence_eleve,"Cours A")'''
+def evaluate_presence_per_creneau(creneau):
+    horaire_debut, horaire_fin = get_horaires(creneau)
+    reference_day = get_reference_day(creneau)
+    horaire_debut = replace_date_with_reference_day(horaire_debut, reference_day)
+    horaire_fin = replace_date_with_reference_day(horaire_fin, reference_day)
+    print(horaire_debut, horaire_fin)
+    # On récupère la salle du créneau, ensuite, on récupère les id des dispositifs de cette salle
+    salle = get_salle(creneau)
+    dispositif_ids = get_dispositif_salle(salle)
+    # Pour chaque dispositif, (s'il y en a plusieurs pour une même salle), on appel get_data_in_horaire
+    # Si plusieurs dispositifs dans une salle,
+    presence_temp = {}
+    ponderation = 0
+    presence_finale = {}
+
+    for dispositif in dispositif_ids:
+        data = get_data_in_horaire(horaire_debut, horaire_fin, dispositif, range=7)
+        print("Data en lien avec cet horaire: ", data)
+        type_dispositif = get_type_dispositif(dispositif)
+        list_mac = get_dict_nom_addr(data,type_dispositif)
+        presence_dispositif = get_number_of_detections(list_mac)
+        number_of_samples = get_number_of_samples(horaire_debut,horaire_fin,type_dispositif)
+        ponderation += number_of_samples
+
+        for personne, nombre_timestamps in presence_dispositif:
+            print(f"{personne} a {nombre_timestamps} timestamps.")
+            if personne in presence_temp:
+                presence_temp[personne].append(nombre_timestamps)
+            else:
+                # Sinon, créez la clé et initialisez la liste avec le timestamp
+                presence_temp[personne] = [nombre_timestamps]
+
+    for personne, valeurs in presence_temp.items():
+        somme_valeurs = sum(valeurs)
+        presence_finale[personne] = somme_valeurs/ponderation
+
+    print("Presence avec calcul des moyennes pondérées: ",presence_finale)
+    return presence_finale
+
+
+def get_final_presence():
+    print("Evaluation des présences en cours...")
 
 
 # Press the green button in the gutter to run the script.
@@ -133,7 +186,7 @@ if __name__ == '__main__':
     from Classes.MqttManager import MqttManager
 
     # camManager = CameraManager()  # Press Maj+F10 to execute it or replace it with your code.
-    mqttManager = MqttManager()
+    # mqttManager = MqttManager()
 
     # camManager.recuperation_images()
     # camManager.analyze_images_in_folder()
@@ -150,25 +203,38 @@ if __name__ == '__main__':
     # dispositif = Dispositif(155, "Raspberry", "E303", date_range_string, "Enzo, Morgane, Emilien")
     # envoyer_donnees_dispositif(dispositif)
 
-    # data = Data(155, ["MAC1", "MAC2", "MAC3", "MAC4"])
+    # data = Data(155, ["AA:BB:CC:DD:EE:FF", "5F:37:6E:8D:1C:A2","3D:7F:8A:2E:56:91"])
     # envoyer_donnes_data(data)
 
-    horaires = get_horaires("155")
-    print("Horaires reçues: ", horaires)
-    tz = pytz.timezone('Europe/Paris')
-    horaire_debut, horaire_fin = horaires.split('_')
-    horaire_debut = datetime.strptime(horaire_debut, '%Y-%m-%d %H:%M').astimezone(tz)
-    horaire_fin = datetime.strptime(horaire_fin, '%Y-%m-%d %H:%M').astimezone(tz)
+    # horaires = get_creneaux("155")
+    # print("Horaires reçues: ", horaires)
+    # tz = pytz.timezone('Europe/Paris')
+    # horaire_debut, horaire_fin = horaires.split('_')
+    # horaire_debut = datetime.strptime(horaire_debut, '%Y-%m-%d %H:%M').astimezone(tz)
+    # horaire_fin = datetime.strptime(horaire_fin, '%Y-%m-%d %H:%M').astimezone(tz)
 
-    # current_time = datetime.utcnow()
-    # timezone = pytz.utc
-    # influxdb_timestamp_max = pd.to_datetime(current_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')).replace(tzinfo=timezone)
-    # influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=5)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+    """current_time = datetime.utcnow()
+    timezone = pytz.utc
+    influxdb_timestamp_max = pd.to_datetime(current_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')).replace(tzinfo=timezone)
+    influxdb_timestamp_min = pd.to_datetime((current_time - timedelta(hours=2)).strftime("'%Y-%m-%dT%H:%M:%S.%fZ'")).replace(tzinfo=timezone)
+    data = get_data_in_horaire(influxdb_timestamp_min, influxdb_timestamp_max, "155")
+    print("Data en lien avec cet horaire: ", data)
+    evaluate_presence(data, 'Wifi',"EIIN905")"""
 
-    data = get_data_in_horaire(horaire_debut, horaire_fin, "155")
+    """creneaux = get_creneaux('EIIN905')
+    horaire_debut, horaire_fin = get_horaires(creneaux[1])
+    reference_day = get_reference_day(creneaux[1])
+    horaire_debut = replace_date_with_reference_day(horaire_debut, reference_day)
+    horaire_fin = replace_date_with_reference_day(horaire_fin, reference_day)
+    print(horaire_debut, horaire_fin)
+    data = get_data_in_horaire(horaire_debut, horaire_fin, "155", range=7)
     print("Data en lien avec cet horaire: ", data)
 
-    evaluate_presence(data, "155")
+    draw_presence_per_dispositif(data, 'Wifi', "EIIN905")"""
 
-    app.run(port=5000)
+    creneaux = get_creneaux('EIIN905')
+    evaluate_presence_per_creneau(creneaux[1])
+    # get_number_of_samples("2024-01-16T14:00:00.104000Z","2024-01-16T18:00:00.104000Z","Bluetooth")
+
+    # app.run(host="0.0.0.0",port=5000,debug=True)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
