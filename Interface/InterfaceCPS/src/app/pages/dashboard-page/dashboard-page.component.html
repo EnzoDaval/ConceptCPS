@@ -1,4 +1,4 @@
-<div class="big-container">
+<!--<div class="big-container">
   <div class="card-container">
     <div class="card">
       <app-tab></app-tab></div>
@@ -10,4 +10,12 @@
       ></app-vertical-chart>
     </div>
   </div>
+</div>-->
+
+<div class="big-container">
+  <div *ngIf="imageSrc">
+    <img [src]="imageSrc" alt="Dashboard Image">
+  </div>
 </div>
+
+

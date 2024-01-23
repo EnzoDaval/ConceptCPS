@@ -3,8 +3,11 @@
 import datetime
 import json
 import sys
+import os
+import glob
 
 from flask_cors import CORS
+from flask import Flask, request, jsonify, send_file, url_for
 
 from InfluxDB.client import get_data_in_horaire, envoyer_donnes_data
 from DataProcessing.Utils.configUtils import *
@@ -30,6 +33,17 @@ WIFI_SAMPLES = 15  # en minutes
 app = Flask(__name__)
 cors = CORS(app)
 
+@app.route("/get_image")
+def get_image():
+    # Utilisez la fonction glob pour rechercher le fichier commencant par "EIIN"
+    image_files = glob.glob(os.path.join(os.getcwd(), 'EIIN*.png'))
+
+    if image_files:
+        # Utilisez le premier fichier correspondant trouvé
+        image_path = image_files[0]
+        return send_file(image_path, mimetype='image/png')
+    else:
+        return jsonify({'error': 'Image not found'})
 
 @app.route("/calculate", methods=["POST"])
 def recevoir_notification():
@@ -43,7 +57,8 @@ def recevoir_notification():
 
     get_final_presence()
 
-    return jsonify({'message': 'Notification reçue avec succès'})
+    image_url = url_for('get_image', _external=True)
+    return jsonify({'message': 'Notification reçue avec succès', 'image_url': image_url})
 
 
 @app.route("/configs", methods=["POST"])
