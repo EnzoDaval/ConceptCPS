@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {LoadingService} from "../../shared/services/loading.service";
 
 @Component({
   selector: 'app-home-page',
@@ -7,10 +8,13 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-
-  constructor() { }
+  loading: boolean = false;
+  constructor(private loadingService: LoadingService) { }
 
   ngOnInit(): void {
+    this.loadingService.loading$.subscribe(loading => {
+      this.loading = loading;
+    });
   }
 
 

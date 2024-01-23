@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import {DashboardService} from "../../shared/services/dashboard.service";
+import {LoadingService} from "../../shared/services/loading.service";
 
 @Component({
   selector: 'app-dashboard-page',
