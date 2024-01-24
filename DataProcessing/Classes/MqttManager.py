@@ -74,7 +74,7 @@ class MqttManager:
             match type_dispositif:
                 case "Bluetooth":
                     self.on_message_bluetooth(msg.payload)
-                case "WiFi":
+                case "Wifi":
                     self.on_message_wifi(msg.payload)
                 case _:
                     exit()

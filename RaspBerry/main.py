@@ -45,7 +45,7 @@ print("Publication des adresses MAC et IP sur MQTT...")
 client.publish("raspberry/wifi", json.dumps(arp_scan(ip_range)))
 client.publish("raspberry/bluetooth", json.dumps(scan_available_bluetooth_devices()))
 
-print("Adresses MAC et IP WiFi:", mac_ip_adresses_wifi)
+print("Adresses MAC et IP Wifi:", mac_ip_adresses_wifi)
 print("Adresses MAC Bluetooth:", mac_ip_adresses_bluetooth)
 print("Données publiées avec succès.")
 

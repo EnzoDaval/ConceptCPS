@@ -2,11 +2,11 @@
   {
     "id": 1000,
     "type_dispositif": "Bluetooth",
-    "salle": "E303"
+    "salle": "E310"
   },
   {
     "id": 155,
-    "type_dispositif": "WiFi",
+    "type_dispositif": "Wifi",
     "salle": "E310"
   },
   {
@@ -16,12 +16,12 @@
   },
   {
     "id": 4000,
-    "type_dispositif": "WiFi",
+    "type_dispositif": "Wifi",
     "salle": "E209"
   },
   {
     "id": 5000,
-    "type_dispositif": ["WiFi","Bluetooth","Camera"],
+    "type_dispositif": ["Wifi","Bluetooth","Camera"],
     "salle": "E211"
   }
 ]

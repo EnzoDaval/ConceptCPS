@@ -39,11 +39,13 @@ def recevoir_notification():
         class_number = data["classNumber"]
         print(f'Notification reçue pour la classe {class_number} !')
         # Utilisez class_number comme nécessaire dans votre logique
+        get_final_presence(class_number,fichier='Res/Hyperplanning.json')
+        image_url = url_for('get_image', _external=True)
+        return jsonify({'message': 'Notification reçue avec succès', 'image_url': image_url})
+    return jsonify({'message': 'Notification reçue avec succès, mais sans aucune classe', 'image_url': None})
 
-    get_final_presence()
 
-    image_url = url_for('get_image', _external=True)
-    return jsonify({'message': 'Notification reçue avec succès', 'image_url': image_url})
+
 
 
 @app.route("/configs", methods=["POST"])

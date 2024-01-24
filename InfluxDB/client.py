@@ -51,8 +51,8 @@ def get_data_in_horaire(influxdb_timestamp_min,influxdb_timestamp_max, id_dispos
     client = InfluxDBClient(url=url, token=token, org=org)
     # Convertissez influxdb_timestamp_min et influxdb_timestamp_max en objets datetime avec le même fuseau horaire
     tz = pytz.timezone('Europe/Paris')
-    influxdb_timestamp_min = datetime.strptime(influxdb_timestamp_min, "%Y-%m-%dT%H:%M:%S.%fZ")
-    influxdb_timestamp_max = datetime.strptime(influxdb_timestamp_max, "%Y-%m-%dT%H:%M:%S.%fZ")
+    # influxdb_timestamp_min = datetime.strptime(influxdb_timestamp_min, "%Y-%m-%dT%H:%M:%S.%fZ")
+    # influxdb_timestamp_max = datetime.strptime(influxdb_timestamp_max, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     query_second_table = f'''
             from(bucket: "{bucket}")

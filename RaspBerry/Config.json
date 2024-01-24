@@ -2,7 +2,7 @@
   {
     "config": "setup",
     "id": 155,
-    "type": "WiFi",
+    "type": "Wifi",
     "sampling": 5,
     "creneaux": [
       {

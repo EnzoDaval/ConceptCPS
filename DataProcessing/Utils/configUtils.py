@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 
 import pytz
 
-fichier_config = "DataProcessing/Res/Hyperplanning.json"
+fichier_config = "Res/Hyperplanning.json"
 
 
-def _get_info_cours(numero_cours):
+def _get_info_cours(numero_cours,fichier=fichier_config):
     try:
-        with open(fichier_config, 'r', encoding='utf-8') as file:
+        with open(fichier, 'r', encoding='utf-8') as file:
             data = json.load(file)
 
         for cours in data:
@@ -32,8 +32,10 @@ Retourne tous les objets 'horaire' d'un cours
 '''
 
 
-def get_creneaux(numero_cours):
-    cours = _get_info_cours(numero_cours)
+def get_creneaux(numero_cours,fichier=None):
+
+    if fichier:  cours = _get_info_cours(numero_cours,fichier)
+    else :  cours = _get_info_cours(numero_cours)
     return [horaires for horaires in cours.get('creneaux', [])]
 
 
@@ -111,7 +113,7 @@ def replace_date_with_reference_day(timestamp_past, reference_day):
 
 
 
-def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='DataProcessing/Res/Eleves.json'):
+def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='Res/Eleves.json'):
     try:
         with open(chemin_fichier, 'r') as fichier:
             eleves = json.load(fichier)
@@ -126,7 +128,7 @@ def trouver_eleve_par_wifi(adresse_mac_wifi, chemin_fichier='DataProcessing/Res/
     return None
 
 
-def trouver_eleve_par_bluetooth(adresse_mac_bluetooth, chemin_fichier='DataProcessing/Res/Eleves.json'):
+def trouver_eleve_par_bluetooth(adresse_mac_bluetooth, chemin_fichier='Res/Eleves.json'):
     try:
         with open(chemin_fichier, 'r') as fichier:
             eleves = json.load(fichier)
@@ -139,7 +141,7 @@ def trouver_eleve_par_bluetooth(adresse_mac_bluetooth, chemin_fichier='DataProce
         print("Erreur de formatage du fichier JSON.")
 
 
-def get_type_dispositif(id, chemin_fichier='DataProcessing/Res/Dispositifs.json'):
+def get_type_dispositif(id, chemin_fichier='Res/Dispositifs.json'):
     try:
         with open(chemin_fichier, 'r') as fichier:
             dispositifs = json.load(fichier)
@@ -152,7 +154,7 @@ def get_type_dispositif(id, chemin_fichier='DataProcessing/Res/Dispositifs.json'
         print("Erreur de formatage du fichier JSON.")
 
 
-def get_salle_dispositif(id, chemin_fichier='DataProcessing/Res/Dispositifs.json'):
+def get_salle_dispositif(id, chemin_fichier='Res/Dispositifs.json'):
     try:
         with open(chemin_fichier, 'r') as fichier:
             dispositifs = json.load(fichier)
@@ -168,7 +170,7 @@ def get_salle_dispositif(id, chemin_fichier='DataProcessing/Res/Dispositifs.json
 """
 Retourne tous les dispositifs d'une salle donnée
 """
-def get_dispositif_salle(salle_recherche,nom_fichier_json="Dataprocessing/Res/Dispositifs.json"):
+def get_dispositif_salle(salle_recherche,nom_fichier_json="Res/Dispositifs.json"):
     resultats = []
 
     with open(nom_fichier_json, 'r') as fichier:
@@ -180,7 +182,7 @@ def get_dispositif_salle(salle_recherche,nom_fichier_json="Dataprocessing/Res/Di
 
     return resultats
 
-def get_all_dispositifs(nom_fichier_json="Dataprocessing/Res/Dispositifs.json"):
+def get_all_dispositifs(nom_fichier_json="Res/Dispositifs.json"):
     # Lire le contenu du fichier JSON
     with open(nom_fichier_json, "r") as fichier:
         contenu_json = json.load(fichier)
@@ -190,21 +192,22 @@ def get_all_dispositifs(nom_fichier_json="Dataprocessing/Res/Dispositifs.json"):
 
 
 def get_number_of_samples(horaire_debut,horaire_fin,type_dispositif):
-    from DataProcessing.main import WIFI_SAMPLES,BLUETOOTH_SAMPLES
+    '''from DataProcessing.main import WIFI_SAMPLES,BLUETOOTH_SAMPLES
     sampling = None
     if type_dispositif == 'Bluetooth': sampling = BLUETOOTH_SAMPLES
-    else: sampling = WIFI_SAMPLES
+    else: sampling = WIFI_SAMPLES'''
+    sampling = get_sampling_for_device_type(type_dispositif)
 
-    heure1_obj = datetime.fromisoformat(horaire_debut.rstrip("Z"))
-    heure2_obj = datetime.fromisoformat(horaire_fin.rstrip("Z"))
+    # heure1_obj = datetime.fromisoformat(horaire_debut.rstrip("Z"))
+    # heure2_obj = datetime.fromisoformat(horaire_fin.rstrip("Z"))
 
     # Calcul de la différence en minutes
-    difference_en_minutes = (heure2_obj - heure1_obj).total_seconds() / 60
+    difference_en_minutes = (horaire_fin - horaire_debut).total_seconds() / 60
 
     # Calcul du nombre de quarts d'heure
     quarts_d_heure = difference_en_minutes / sampling
 
-    print(f"Il y a {quarts_d_heure} quarts d'heure entre {horaire_debut} et {horaire_fin}.")
+    print(f"Il y a {quarts_d_heure} {sampling} minutes entre {horaire_debut} et {horaire_fin}.")
     return quarts_d_heure
 
 
@@ -216,8 +219,8 @@ def get_number_of_detections(dict):
         compteur_timestamps_par_personne[personne] = len(timestamps)
 
     # Afficher les résultats
-    for personne, nombre_timestamps in compteur_timestamps_par_personne.items():
-        print(f"{personne} a {nombre_timestamps} timestamps.")
+    #for personne, nombre_timestamps in compteur_timestamps_par_personne.items():
+    #    print(f"{personne} a {nombre_timestamps} timestamps.")
 
     return compteur_timestamps_par_personne.items()
 
@@ -259,7 +262,7 @@ def get_creneaux_par_salle(salle_recherchee):
         return creneaux_trouves
 
 
-def get_sampling_for_device_type(device_type, json_file_path="DataProcessing/Res/Sampling.json"):
+def get_sampling_for_device_type(device_type, json_file_path="Res/Sampling.json"):
     with open(json_file_path, 'r') as file:
         data = json.load(file)
 
@@ -269,6 +272,24 @@ def get_sampling_for_device_type(device_type, json_file_path="DataProcessing/Res
 
     # Si le type de dispositif n'est pas trouvé, vous pouvez renvoyer une valeur par défaut ou lever une exception, selon vos besoins.
     return None
+
+def get_numero_cours(creneau):
+    numero_cours = None
+
+    with open(fichier_config, 'r') as fichier:
+        json_data = json.load(fichier)
+
+    for cours in json_data:
+        for creneau_cours in cours["creneaux"]:
+            if creneau_cours["heureDebut"] == creneau["heureDebut"] and \
+                    creneau_cours["heureFin"] == creneau["heureFin"] and \
+                    creneau_cours["salle"] == creneau["salle"] and \
+                    creneau_cours["jour"] == creneau["jour"] and \
+                    creneau_cours["eleves"] == creneau["eleves"]:
+                numero_cours = cours["numeroDuCours"]
+                break
+
+    return numero_cours
 
 # Chemin vers votre fichier JSON
 
